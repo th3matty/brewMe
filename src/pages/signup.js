@@ -70,7 +70,7 @@ export default function SignUp() {
           placeholder=" Your User Name"
           onChange={({ target }) => setUserName(target.value.toLowerCase())}
           value={userName}
-        ></input>
+        />
         <input
           type="text"
           aria-label="enter your email adress"
@@ -78,14 +78,14 @@ export default function SignUp() {
           onChange={({ target }) => setEmailAddress(target.value.toLowerCase())}
           onFocus={() => setEmailAddress("")}
           value={emailAddress}
-        ></input>
+        />
         <input
           type="password"
           aria-label="enter your password"
           placeholder="Your password"
           onChange={({ target }) => setPassword(target.value)}
           value={password}
-        ></input>
+        />
         <button
           disabled={isInvalid}
           type="submit"
