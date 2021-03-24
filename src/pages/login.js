@@ -1,36 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import SignUp from "../pages/signup";
-import { NOT_FOUND, SIGN_UP } from "../constants/routes";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useHistory } from "react-router-dom";
+import FirebaseContext from "../context/firebase";
+import * as ROUTES from "../constants/routes";
 
 export default function Login() {
-  const [emailAddress, setEmailAdress] = useState("");
+  const history = useHistory();
+  const { firebase } = useContext(FirebaseContext);
+  const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
 
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
   const isInvalid = password === "" || emailAddress === "";
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    ValidateEmail(emailAddress);
+  const handleLogin = async (event) => {
+    event.preventDefault();
 
-    if (emailAddress && password) {
-      console.log("email:", emailAddress, "password:", password);
+    try {
+      await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
+      history.push(ROUTES.DASHBOARD);
+    } catch (error) {
+      setEmailAddress("");
+      setPassword("");
+      setError(error.message);
     }
   };
-
-  function ValidateEmail(mail) {
-    if (
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(
-        emailAddress
-      )
-    ) {
-      return true;
-    }
-    alert("You have entered an invalid email address!");
-    setError(true);
-    return false;
-  }
 
   useEffect(() => {
     document.title = "BrewMe - Login";
@@ -38,24 +31,24 @@ export default function Login() {
 
   return (
     <div>
-      <form>
+      {error && <p> {error}</p>}
+      <form onSubmit={handleLogin}>
         <input
           type="text"
           aria-label="enter your email adress"
-          placeholder="Email adress"
-          onChange={({ target }) => setEmailAdress(target.value)}
+          placeholder="Your Email adress"
+          onChange={({ target }) => setEmailAddress(target.value)}
           value={emailAddress}
-          onFocus={() => setEmailAdress("")}
+          onFocus={() => setEmailAddress("")}
         ></input>
         <input
           type="password"
           aria-label="enter your password"
-          placeholder="your password"
+          placeholder="Your password"
           onChange={({ target }) => setPassword(target.value)}
         ></input>
         <button
           disabled={isInvalid}
-          onClick={handleClick}
           type="submit"
           style={{ cursor: "pointer" }}
         >
@@ -64,7 +57,7 @@ export default function Login() {
         </button>
       </form>
       <p> Dont have an account?</p>
-      <Link to={SIGN_UP}> Sign Up</Link>;
+      <Link to={ROUTES.SIGN_UP}> Sign Up</Link>;
     </div>
   );
 }
