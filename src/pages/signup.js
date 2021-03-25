@@ -26,6 +26,11 @@ export default function SignUp() {
           .auth()
           .createUserWithEmailAndPassword(emailAddress, password);
 
+        await createdUser.user.sendEmailVerification()
+        
+        console.log("createdUser:",createdUser)
+
+        // createdUser.user.emailVerified ?
         await createdUser.user.updateProfile({
           displayName: userName,
         });
@@ -39,7 +44,8 @@ export default function SignUp() {
           dateCreated: Date.now(),
         });
         // redirect
-        history.push(ROUTES.DASHBOARD);
+        history.push(ROUTES.LOGIN);
+
       } catch (error) {
         setUserName("");
         setEmailAddress("");

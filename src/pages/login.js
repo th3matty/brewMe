@@ -16,8 +16,17 @@ export default function Login() {
     event.preventDefault();
 
     try {
-      await firebase.auth().signInWithEmailAndPassword(emailAddress, password);
-      history.push(ROUTES.DASHBOARD);
+      await firebase
+        .auth()
+        .signInWithEmailAndPassword(emailAddress, password)
+        .then((authUser) => {
+          if (authUser.user.emailVerified) {
+            history.push(ROUTES.DASHBOARD);
+          } else {
+            setError("please verify your email");
+          }
+        })
+        .catch((error) => console.log(error));
     } catch (error) {
       setEmailAddress("");
       setPassword("");
