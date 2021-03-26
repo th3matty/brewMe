@@ -26,11 +26,10 @@ export default function SignUp() {
           .auth()
           .createUserWithEmailAndPassword(emailAddress, password);
 
-        await createdUser.user.sendEmailVerification()
-        
-        console.log("createdUser:",createdUser)
+        await createdUser.user.sendEmailVerification();
 
-        // createdUser.user.emailVerified ?
+        console.log("createdUser:", createdUser);
+
         await createdUser.user.updateProfile({
           displayName: userName,
         });
@@ -45,7 +44,6 @@ export default function SignUp() {
         });
         // redirect
         history.push(ROUTES.LOGIN);
-
       } catch (error) {
         setUserName("");
         setEmailAddress("");
@@ -63,8 +61,6 @@ export default function SignUp() {
   useEffect(() => {
     document.title = "BrewMe - SignUp";
   }, []);
-
-  // useHistory ==> wenn registriert und vorallem verifziert dann history.push(ROUTES.DASHBOARD)
 
   return (
     <div>

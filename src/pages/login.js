@@ -39,10 +39,8 @@ export default function Login() {
   }, []);
 
   return (
-    // container flex flex-col  max-w-screen-md items-center h-screen
     <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
       {error && <p className="mb-4 text-xs text-red-500">{error}</p>}
-      {/* <div className="flex flex-col w-2/5"> */}
       <div className="flex  items-center bg-white p-4 border mb-4">
         <form onSubmit={handleLogin}>
           <input
@@ -78,7 +76,6 @@ export default function Login() {
         <p className="text-sm"> Dont have an account?</p>
         <Link to={ROUTES.SIGN_UP}> Sign Up</Link>
       </div>
-      {/* </div> */}
     </div>
   );
 }
