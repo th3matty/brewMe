@@ -19,7 +19,8 @@ function App() {
           <Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
           <Route path={ROUTES.SIGN_UP} component={SignUp} exact />
           <Route path={ROUTES.PROFILE} component={Profile} exact />
-          <Route path={ROUTES.NOT_FOUND} component={NotFound} exact />
+          <Route component={NotFound} exact />
+          {/* path={ROUTES.NOT_FOUND} */}
         </Switch>
       </Suspense>
     </HashRouter>

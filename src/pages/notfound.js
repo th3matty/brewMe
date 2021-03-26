@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 export default function NotFound() {
+
+    useEffect(() => {
+        document.title = "BrewMe - 404 - Not-Found"
+    },[])
+
     return (
-        <p>Hello from NotFound</p>
+        <p>Nothing here</p>
     )
 }
