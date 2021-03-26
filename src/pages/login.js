@@ -39,34 +39,46 @@ export default function Login() {
   }, []);
 
   return (
-    <div>
-      {error && <p> {error}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="text"
-          aria-label="enter your email adress"
-          placeholder="Your Email adress"
-          onChange={({ target }) => setEmailAddress(target.value)}
-          value={emailAddress}
-          onFocus={() => setEmailAddress("")}
-        ></input>
-        <input
-          type="password"
-          aria-label="enter your password"
-          placeholder="Your password"
-          onChange={({ target }) => setPassword(target.value)}
-        ></input>
-        <button
-          disabled={isInvalid}
-          type="submit"
-          style={{ cursor: "pointer" }}
-        >
-          {" "}
-          Login{" "}
-        </button>
-      </form>
-      <p> Dont have an account?</p>
-      <Link to={ROUTES.SIGN_UP}> Sign Up</Link>;
+    // container flex flex-col  max-w-screen-md items-center h-screen
+    <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
+      {error && <p className="mb-4 text-xs text-red-500">{error}</p>}
+      {/* <div className="flex flex-col w-2/5"> */}
+      <div className="flex  items-center bg-white p-4 border mb-4">
+        <form onSubmit={handleLogin}>
+          <input
+            type="text"
+            aria-label="enter your email adress"
+            className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
+            placeholder="Your Email adress"
+            onChange={({ target }) => setEmailAddress(target.value)}
+            value={emailAddress}
+            onFocus={() => setEmailAddress("")}
+          ></input>
+          <input
+            type="password"
+            aria-label="enter your password"
+            className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
+            placeholder="Your password"
+            onChange={({ target }) => setPassword(target.value)}
+          ></input>
+          <button
+            disabled={isInvalid}
+            type="submit"
+            className={`bg-blue-500 text-white w-full rounded h-8 font-bold ${
+              isInvalid && "cursor-not-allowed opacity-50"
+            }`}
+            style={{ cursor: "pointer" }}
+          >
+            {" "}
+            Login{" "}
+          </button>
+        </form>
+      </div>
+      <div className="flex justify-center items-center flex-col  bg-white p-4 border">
+        <p className="text-sm"> Dont have an account?</p>
+        <Link to={ROUTES.SIGN_UP}> Sign Up</Link>
+      </div>
+      {/* </div> */}
     </div>
   );
 }
