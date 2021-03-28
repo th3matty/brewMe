@@ -1,7 +1,11 @@
 import React from "react";
+import Header from "../components/Header";
 
 export default function Dashboard() {
-    return (
-        <p>Hello from Dashboard</p>
-    )
+  return (
+    <div>
+      <p>Hello from Dashboard</p>
+      <Header />
+    </div>
+  );
 }
