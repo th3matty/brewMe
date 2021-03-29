@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import FirebaseContext from "../context/firebase";
 import * as ROUTES from "../constants/routes";
+import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
 
 export default function Login() {
   const history = useHistory();
@@ -40,8 +41,9 @@ export default function Login() {
 
   return (
     <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
-      {error && <p className="mb-4 text-xs text-red-500">{error}</p>}
-      <div className="flex  items-center bg-white p-4 border mb-4">
+      {error && <p className="mb-4 text-xs text-red-500"> {error}</p>}
+      <BrewMeLogo />
+      <div className="flex items-center bg-white p-4 border mb-4 mt-4">
         <form onSubmit={handleLogin}>
           <input
             type="text"
@@ -73,7 +75,7 @@ export default function Login() {
         </form>
       </div>
       <div className="flex justify-center items-center flex-col  bg-white p-4 border">
-        <p className="text-sm"> Dont have an account?</p>
+        <p className="text-m"> Dont have an account?</p>
         <Link to={ROUTES.SIGN_UP}> Sign Up</Link>
       </div>
     </div>
