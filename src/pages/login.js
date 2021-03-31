@@ -27,7 +27,7 @@ export default function Login() {
             setError("please verify your email");
           }
         })
-        .catch((error) => console.log(error));
+        .catch((error) => setError(error.message));
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -41,7 +41,7 @@ export default function Login() {
 
   return (
     <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
-      {error && <p className="mb-4 text-xs text-red-500"> {error}</p>}
+      {error && <p className="mb-4 mt-4 text-xs text-red-500"> {error}</p>}
       <BrewMeLogo />
       <div className="flex items-center bg-white p-4 border mb-4 mt-4">
         <form onSubmit={handleLogin}>
@@ -53,14 +53,14 @@ export default function Login() {
             onChange={({ target }) => setEmailAddress(target.value)}
             value={emailAddress}
             onFocus={() => setEmailAddress("")}
-          ></input>
+          />
           <input
             type="password"
             aria-label="enter your password"
             className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
             placeholder="Your password"
             onChange={({ target }) => setPassword(target.value)}
-          ></input>
+          />
           <button
             disabled={isInvalid}
             type="submit"
