@@ -13,7 +13,7 @@ export default function useUser() {
       setActiveUser({ ...response }); // pass the user response to the state of activeUser
       
     }
-    console.log("activeUser:", activeUser)
+    
     if (user && user.uid) {
       getUserObjByUserId();
     }
