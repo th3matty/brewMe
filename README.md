@@ -1,3 +1,12 @@
+# BrewMe - App for hobby brewers
+This App will allow brewers to create their receipes and share it with other users on this plattform.
+
+More information like "Table of Contents" will be provided soon.
+
+Status for now. Still in production mode.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
