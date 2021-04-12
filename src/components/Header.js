@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { UserContext } from "../context/user";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
@@ -8,7 +8,13 @@ import { ReactComponent as Home } from "../svg/home.svg";
 import { ReactComponent as Logout } from "../svg/logout.svg";
 import defaultUserPic from "../dist/avatars/boy_default.png";
 
-function CalltoActionWidget({ user }) {
+function CalltoActionWidget({
+  user,
+  token,
+  setUser,
+  setToken,
+  setRefreshToken,
+}) {
   if (user === null || user === undefined || user === "") {
     return (
       <>
@@ -54,7 +60,11 @@ function CalltoActionWidget({ user }) {
           <Logout
             className="mt-4 mr-2"
             title="Sign Out"
-            onClick={() => (user = {})}
+            onClick={() => {
+              setUser(null);
+              setToken("");
+              setRefreshToken("");
+            }}
           />
         </Link>
       </>
@@ -63,7 +73,9 @@ function CalltoActionWidget({ user }) {
 }
 
 function Header() {
-  const { user } = useContext(UserContext);
+  const { user, setUser, setToken, setRefreshToken, token } = useContext(
+    UserContext
+  );
 
   useEffect(() => {
     document.title = "BrewMe - Dashboard";
@@ -80,7 +92,14 @@ function Header() {
             </Link>
           </div>
           <div className="text-gray text-center flex items-center align-items justify-spacebetween">
-            <CalltoActionWidget user={user} />
+            {/* {user, setUser, setToken, setRefreshToken} */}
+            <CalltoActionWidget
+              user={user}
+              token={token}
+              setUser={setUser}
+              setToken={setToken}
+              setRefreshToken={setRefreshToken}
+            />
           </div>
         </div>
       </div>
