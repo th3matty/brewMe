@@ -10,7 +10,6 @@ import defaultUserPic from "../dist/avatars/boy_default.png";
 
 function CalltoActionWidget({
   user,
-  token,
   setUser,
   setToken,
   setRefreshToken,
@@ -73,7 +72,7 @@ function CalltoActionWidget({
 }
 
 function Header() {
-  const { user, setUser, setToken, setRefreshToken, token } = useContext(
+  const { user, setUser, setToken, setRefreshToken } = useContext(
     UserContext
   );
 
@@ -95,7 +94,6 @@ function Header() {
             {/* {user, setUser, setToken, setRefreshToken} */}
             <CalltoActionWidget
               user={user}
-              token={token}
               setUser={setUser}
               setToken={setToken}
               setRefreshToken={setRefreshToken}
