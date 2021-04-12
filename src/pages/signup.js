@@ -1,60 +1,57 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
-import FirebaseContext from "../context/firebase";
+import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
-import { doesUsernameExist } from "../services/firebase";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
+import {
+  graphQl_Uri,
+  createUserMethodGraphQl,
+} from "../services/graphQlQueries";
 
 export default function SignUp() {
-  const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
-
   const [userName, setUserName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [error, setError] = useState("");
+  const [helper, setHelpler] = useState("");
   const isInvalid = userName === "" || password === "" || emailAddress === "";
+
+  // mongoDB method from services
+  const userSignUp = createUserMethodGraphQl(
+    userName,
+    password,
+    emailAddress,
+    confirmPassword
+  );
 
   const handleSignUp = async (event) => {
     event.preventDefault();
 
-    const userExist = doesUsernameExist(userName);
+    try {
+      const signUpUser = await fetch(graphQl_Uri, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userSignUp),
+      });
 
-    if (!userExist.length) {
-      try {
-        const createdUser = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(emailAddress, password);
+      const createdUser = await signUpUser.json();
 
-        await createdUser.user.sendEmailVerification();
-
-        console.log("createdUser:", createdUser);
-
-        await createdUser.user.updateProfile({
-          displayName: userName,
-        });
-
-        await firebase.firestore().collection("users").add({
-          userId: createdUser.user.uid,
-          username: userName.toLowerCase(),
-          emailAddress: emailAddress.toLowerCase(),
-          following: [],
-          followers: [],
-          dateCreated: Date.now(),
-        });
-        history.push(ROUTES.LOGIN);
-      } catch (error) {
-        setUserName("");
-        setEmailAddress("");
-        setPassword("");
-        setError(error.message);
+      const { errors } = createdUser;
+      if (errors) {
+        const error = errors[0].message;
+        throw new Error(error);
       }
-    } else {
-      setUserName("");
-      setEmailAddress("");
-      setPassword("");
-      setError("username is already taken, please try another!");
+      const { createUser } = createdUser.data;
+      if (createUser) {
+        setHelpler(
+          "Succesfully registrated. Please check your inbox for verifying your email \u{1F4A1}"
+        );
+      }
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -64,7 +61,8 @@ export default function SignUp() {
 
   return (
     <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
-      {error && <p className="mb-4 mt-4 text-xs text-red-500"> {error}</p>}
+      {error && <p className="m-4 text-s text-red-500"> {error}</p>}
+      {helper && <p className="m-4 text-s text-green-500">{helper}</p>}
       <BrewMeLogo />
       <div className="flex items-center bg-white p-4 border mb-4 mt-4">
         <form onSubmit={handleSignUp}>
@@ -95,6 +93,14 @@ export default function SignUp() {
             onChange={({ target }) => setPassword(target.value)}
             value={password}
           />
+          <input
+            type="password"
+            aria-label="confirm your password"
+            className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
+            placeholder="Please confirm your password"
+            onChange={({ target }) => setConfirmPassword(target.value)}
+            value={confirmPassword}
+          />
           <button
             disabled={isInvalid}
             type="submit"
@@ -109,7 +115,7 @@ export default function SignUp() {
         </form>
       </div>
       <div className="flex justify-center items-center flex-col  bg-white p-4 border">
-        <p className="text-m"> Have an account?</p>
+        <p className="text-m"> Already have an account?</p>
         <Link to={ROUTES.LOGIN}> Login In</Link>
       </div>
     </div>

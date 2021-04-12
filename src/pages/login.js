@@ -1,37 +1,78 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
-import FirebaseContext from "../context/firebase";
+import { UserContext } from "../context/user";
 import * as ROUTES from "../constants/routes";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
+import {
+  graphQl_Uri,
+  userLoginMethodGraphQl,
+  queryGetUserDetails,
+} from "../services/graphQlQueries";
 
-export default function Login() {
+export default function Login({ getUserObjAndToken }) {
   const history = useHistory();
-  const { firebase } = useContext(FirebaseContext);
-  const [emailAddress, setEmailAddress] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
-  const isInvalid = password === "" || emailAddress === "";
+  const [helper, setHelpler] = useState("");
+  const isInvalid = password === "" || userName === "";
+
+  const { user, setUser, setToken, setRefreshToken } = useContext(UserContext);
+
+  // mongoDB queries/methods from services
+  const loginUser = userLoginMethodGraphQl(userName, password);
+  const getUserDetails = queryGetUserDetails();
 
   const handleLogin = async (event) => {
     event.preventDefault();
 
     try {
-      await firebase
-        .auth()
-        .signInWithEmailAndPassword(emailAddress, password)
-        .then((authUser) => {
-          if (authUser.user.emailVerified) {
-            history.push(ROUTES.DASHBOARD);
-          } else {
-            setError("please verify your email");
-          }
-        })
-        .catch((error) => setError(error.message));
-    } catch (error) {
-      setEmailAddress("");
+      const queryLogin = await fetch(graphQl_Uri, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginUser),
+      });
+      const resultLogin = await queryLogin.json();
+
+      const { errors } = resultLogin;
+      if (errors) {
+        const error = errors[0].message;
+        throw new Error(error);
+      }
+
+      const { token, refreshToken } = resultLogin.data.login;
+
+      if (!token && !refreshToken) {
+        throw new Error("Token not found!");
+      }
+
+      const queryGetUser = await fetch(graphQl_Uri, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(getUserDetails),
+      });
+
+      const resultUserDetails = await queryGetUser.json();
+
+      // pass USER-Obj and Tokens to Context.Provider
+      if (resultUserDetails) {
+        setUser(resultUserDetails.data.getUserDetails);
+        setToken(token);
+        setRefreshToken(refreshToken);
+        setHelpler("Success, Dashboard incoming... \u{1F37A}");
+        setTimeout(() => history.push(ROUTES.DASHBOARD), 1000);
+      }
+    } catch (err) {
+      console.log(err);
+      setUserName("");
       setPassword("");
-      setError(error.message);
+      setError(err.message);
     }
   };
 
@@ -41,18 +82,19 @@ export default function Login() {
 
   return (
     <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
-      {error && <p className="mb-4 mt-4 text-xs text-red-500"> {error}</p>}
+      {helper && <p className="m-4 text-s text-green-500">{helper}</p>}
+      {error && <p className="m-4 text-s text-red-500"> {error}</p>}
       <BrewMeLogo />
       <div className="flex items-center bg-white p-4 border mb-4 mt-4">
         <form onSubmit={handleLogin}>
           <input
             type="text"
-            aria-label="enter your email adress"
+            aria-label="enter your user name"
             className="text-sm w-full mr-3 py-5 px-4 h-2 border rounded mb-2"
-            placeholder="Your Email adress"
-            onChange={({ target }) => setEmailAddress(target.value)}
-            value={emailAddress}
-            onFocus={() => setEmailAddress("")}
+            placeholder="Your User Name"
+            onChange={({ target }) => setUserName(target.value)}
+            value={userName}
+            onFocus={() => setUserName("")}
           />
           <input
             type="password"

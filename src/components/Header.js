@@ -1,8 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import PropTypes from "prop-types";
-
-import FirebaseContext from "../context/firebase";
-import UserContext from "../context/user";
+import React, { useContext, useEffect} from "react";
+import { UserContext } from "../context/user";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
@@ -11,8 +8,8 @@ import { ReactComponent as Home } from "../svg/home.svg";
 import { ReactComponent as Logout } from "../svg/logout.svg";
 import defaultUserPic from "../dist/avatars/boy_default.png";
 
-function CalltoActionWidget({ user, firebase, defaultUserName }) {
-  if (user === null || user === undefined) {
+function CalltoActionWidget({ user }) {
+  if (user === null || user === undefined || user === "") {
     return (
       <>
         <Link
@@ -43,16 +40,12 @@ function CalltoActionWidget({ user, firebase, defaultUserName }) {
         </div>
         {/* Profile */}
         <div className="cursor-pointer">
-          <Link
-            to={user.displayName ? `/p/${user.displayName}` : defaultUserName}
-          >
+          <Link to={user.username && `/p/${user.username}`}>
             <img
               className="rounded-full h-8 w-8 flex mr-4 mt-4"
               title="Profile"
               src={defaultUserPic}
-              alt={
-                user.displayName ? `/p/${user.displayName}` : defaultUserName
-              }
+              alt={user.username && `/p/${user.username}`}
             />
           </Link>
         </div>
@@ -61,7 +54,7 @@ function CalltoActionWidget({ user, firebase, defaultUserName }) {
           <Logout
             className="mt-4 mr-2"
             title="Sign Out"
-            onClick={() => firebase.auth().signOut()}
+            onClick={() => (user = {})}
           />
         </Link>
       </>
@@ -69,13 +62,12 @@ function CalltoActionWidget({ user, firebase, defaultUserName }) {
   }
 }
 
-function Header(props) {
-  const { firebase } = useContext(FirebaseContext);
+function Header() {
   const { user } = useContext(UserContext);
-  const defaultUserName = props.displayName;
 
   useEffect(() => {
     document.title = "BrewMe - Dashboard";
+    console.log("Header - rendert");
   }, []);
 
   return (
@@ -88,24 +80,12 @@ function Header(props) {
             </Link>
           </div>
           <div className="text-gray text-center flex items-center align-items justify-spacebetween">
-            <CalltoActionWidget
-              user={user}
-              firebase={firebase}
-              displayName={defaultUserName}
-            />
+            <CalltoActionWidget user={user} />
           </div>
         </div>
       </div>
     </header>
   );
 }
-
-Header.propTypes = {
-  displayName: PropTypes.string.isRequired,
-};
-
-Header.defaultPros = {
-  displayName: "brewer",
-};
 
 export default Header;

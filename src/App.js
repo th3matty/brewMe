@@ -1,8 +1,6 @@
 import "./App.css";
-import React, { lazy, Suspense } from "react";
-
-import UserContext from "./context/user";
-import useAuthListener from "./hooks/use-auth-listener";
+import React, { useEffect, lazy, Suspense } from "react";
+import UserContextProvider from "./context/user";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 
@@ -13,14 +11,16 @@ const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/notfound"));
 
 function App() {
-  const { user} = useAuthListener()
+  useEffect(() => {
+    console.log("App rendert");
+  }, []);
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContextProvider>
       <HashRouter>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
-            <Route path={ROUTES.LOGIN} component={Login} exact />
+            <Route path={ROUTES.LOGIN} render={() => <Login />} exact />
             <Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
             <Route path={ROUTES.SIGN_UP} component={SignUp} exact />
             <Route path={ROUTES.PROFILE} component={Profile} exact />
@@ -28,7 +28,7 @@ function App() {
           </Switch>
         </Suspense>
       </HashRouter>
-    </UserContext.Provider>
+    </UserContextProvider>
   );
 }
 
