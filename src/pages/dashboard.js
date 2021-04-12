@@ -2,7 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { UserContext } from "../context/user";
 import PrefetchFunction from "../hooks/usePrefetch";
 import Header from "../components/Header";
-import Sidebar from "../components/sidebar/sidebar";
+import ShowUser from "../components/showUser/ShowUser";
 
 export default function Dashboard() {
   const [auth, setAuth] = useState(false);
@@ -17,8 +17,8 @@ export default function Dashboard() {
   return (
     <div>
       <Header displayName="brewer" />
+      {auth === true ? <ShowUser /> : <p>Loading... </p>}
       <p>Hello from Dashboard</p>
-      {auth === true ? <Sidebar /> : <p>Loading... </p>}
     </div>
   );
 }
