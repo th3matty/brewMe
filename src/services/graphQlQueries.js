@@ -68,3 +68,17 @@ export const getRefreshTokenMethodGraphQL = (refreshToken) => {
     },
   };
 };
+
+export const getUserList = (filterByName) =>{
+  return {
+    query: `query GetUserList($filterByName:String!){
+      getUserList(filterByName: $filterByName){
+        _id,
+        username
+      }
+    }`,
+    variables: {
+      filterByName: filterByName
+    }
+  }
+}
