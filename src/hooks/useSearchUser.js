@@ -17,15 +17,13 @@ const SearchForUser = async (userName, token) => {
 
     if (!searchResult) {
       throw new Error("Something went wrong");
-    } 
+    }
 
     if (searchResult.data.getUserList.length === 0) {
-      throw new Error(
-        "Sorry, this user does not exist! Maybe you've spelled it wrong?"
-      );
+      const message = "\u274C woops, no user found \u274C";
+      return message;
     } else {
       const user = searchResult.data.getUserList[0].username;
-      console.log("searchResult UserName:", user);
       return user;
     }
   } catch (err) {

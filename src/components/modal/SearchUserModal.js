@@ -3,7 +3,16 @@ import SearchForUser from "../../hooks/useSearchUser";
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
 
-function Modal({ displayModal }) {
+
+// kann ich hier eine FUnktion schreiben CalltoActionWidget ( props : token, userName)
+// if userName is not empty ( like in Header) fetchUserFunction 
+// CalltoActionWidget JSX returns on successfully setSearchResult a div
+// this divs content has the avatar from User and two buttons
+// each button has a mutation method in graphQl ( followUser, addUserToFavourite)
+// each method receives as parameter ID from found fetchUserFunction()
+
+
+function SearchUserModal({ displayModal }) {
   const [userName, setUserName] = useState("");
   const [searchResult, setSearchResult] = useState("");
 
@@ -17,6 +26,7 @@ function Modal({ displayModal }) {
   const handleSearch = (e) => {
     e.preventDefault();
     fetchUser(userName, token);
+    // return CalltoActionWidget( userName and token)
   };
 
   useEffect(() => {
@@ -54,7 +64,7 @@ function Modal({ displayModal }) {
                 {" "}
                 Search
               </button>
-              <div>{searchResult}</div>
+              <div className="ml-1 mt-3 text-s">{searchResult}</div>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -74,4 +84,4 @@ function Modal({ displayModal }) {
   );
 }
 
-export default Modal;
+export default SearchUserModal;
