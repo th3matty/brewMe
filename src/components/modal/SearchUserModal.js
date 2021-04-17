@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SearchForUser from "../../hooks/useSearchUser";
+import { SearchForSingleUser } from "../../services/graphQlMutation";
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
-
-
-// kann ich hier eine FUnktion schreiben CalltoActionWidget ( props : token, userName)
-// if userName is not empty ( like in Header) fetchUserFunction 
-// CalltoActionWidget JSX returns on successfully setSearchResult a div
-// this divs content has the avatar from User and two buttons
-// each button has a mutation method in graphQl ( followUser, addUserToFavourite)
-// each method receives as parameter ID from found fetchUserFunction()
-
 
 function SearchUserModal({ displayModal }) {
   const [userName, setUserName] = useState("");
@@ -18,15 +9,12 @@ function SearchUserModal({ displayModal }) {
 
   const { token } = useContext(UserContext);
 
-  const fetchUser = (userName, token) =>
-    SearchForUser(userName, token)
-      .then((res) => setSearchResult(res))
-      .catch((err) => console.log(err));
-
   const handleSearch = (e) => {
     e.preventDefault();
-    fetchUser(userName, token);
-    // return CalltoActionWidget( userName and token)
+    SearchForSingleUser(userName, token)
+      .then((res) => setSearchResult(res))
+      .catch((err) => console.log(err));
+    setUserName("")
   };
 
   useEffect(() => {
@@ -55,7 +43,9 @@ function SearchUserModal({ displayModal }) {
                 type="text"
                 placeholder="Search for username?"
                 className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
-                onChange={({ target }) => setUserName(target.value)}
+                onChange={({ target }) =>
+                  setUserName(target.value.toLowerCase())
+                }
               />
               <button
                 className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-1 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
@@ -64,7 +54,7 @@ function SearchUserModal({ displayModal }) {
                 {" "}
                 Search
               </button>
-              <div className="ml-1 mt-3 text-s">{searchResult}</div>
+              <div className="ml-1 mt-3 text-s">{searchResult.username || searchResult}</div>
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

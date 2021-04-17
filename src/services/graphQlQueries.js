@@ -75,10 +75,26 @@ export const getUserList = (filterByName) =>{
       getUserList(filterByName: $filterByName){
         _id,
         username
+        avatarURI
       }
     }`,
     variables: {
       filterByName: filterByName
+    }
+  }
+}
+
+export const getUserListByCount = (count) =>{
+  return {
+    query: `query GetUserList($count:Int!){
+      getUserList(count: $count){
+        _id,
+        username
+        avatarURI
+      }
+    }`,
+    variables: {
+      count: count
     }
   }
 }

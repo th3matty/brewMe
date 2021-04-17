@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { ReactComponent as SearchIcon } from "../../svg/search.svg";
 import SearchSingleUser from "../modal/SearchUserModal";
+import ShowRecentlyAddedUser from "./CallForUserWidget";
 
-function Sidebar() {
+function ShowAndSearchUser() {
   const [openSingleUserModal, setSingleUserModal] = useState(false);
 
   const displayModal = (argBool) => {
@@ -10,20 +11,22 @@ function Sidebar() {
   };
 
   return (
-    <div className="md:container md:mx-auto flex">
+    <div className="container flex mx-auto">
       <div className="">
         <SearchIcon
-          className="mr-3 cursor-pointer"
+          className="h-10 w-10 mr-4 mt-4 cursor-pointer"
           title="Search"
           onClick={() => setSingleUserModal(true)}
         />
       </div>
-      {/* new component for showing user*/}
-      <div className=""> alle user </div>
+      <div className="container overflow-x-auto p-3">
+        {" "}
+        <ShowRecentlyAddedUser count={20}/>
+      </div>
       {openSingleUserModal ? (
         <SearchSingleUser displayModal={displayModal} />
       ) : null}
     </div>
   );
 }
-export default Sidebar;
+export default ShowAndSearchUser;

@@ -87,7 +87,7 @@ function Header() {
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
-              <BrewMeLogo alt="BrewMe" />
+              <BrewMeLogo alt="BrewMe" className="ml-2"/>
             </Link>
           </div>
           <div className="text-gray text-center flex items-center align-items justify-spacebetween">
