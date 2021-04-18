@@ -14,7 +14,6 @@ export default function Profile() {
   const checkPrefetch = PrefetchFunction()
     .then((res) => setAuth(res))
     .catch((err) => console.log("err in porfile:", err));
-  //console.log("checkPrefetch in Profile:", checkPrefetch);
 
   useEffect(() => {
     document.title = "BrewMe - Profile";

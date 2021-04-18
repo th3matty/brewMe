@@ -18,7 +18,7 @@ export default function Login({ getUserObjAndToken }) {
   const [helper, setHelpler] = useState("");
   const isInvalid = password === "" || userName === "";
 
-  const { user, setUser, setToken, setRefreshToken } = useContext(UserContext);
+  const { setUser, setToken, setRefreshToken } = useContext(UserContext);
 
   // mongoDB queries/methods from services
   const loginUser = userLoginMethodGraphQl(userName, password);
@@ -66,7 +66,7 @@ export default function Login({ getUserObjAndToken }) {
         setToken(token);
         setRefreshToken(refreshToken);
         setHelpler("Success, Dashboard incoming... \u{1F37A}");
-        setTimeout(() => history.push(ROUTES.DASHBOARD), 1000);
+        setTimeout(() => history.push(ROUTES.DASHBOARD), 500);
       }
     } catch (err) {
       console.log(err);

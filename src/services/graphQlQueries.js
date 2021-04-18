@@ -68,3 +68,33 @@ export const getRefreshTokenMethodGraphQL = (refreshToken) => {
     },
   };
 };
+
+export const getUserList = (filterByName) =>{
+  return {
+    query: `query GetUserList($filterByName:String!){
+      getUserList(filterByName: $filterByName){
+        _id,
+        username
+        avatarURI
+      }
+    }`,
+    variables: {
+      filterByName: filterByName
+    }
+  }
+}
+
+export const getUserListByCount = (count) =>{
+  return {
+    query: `query GetUserList($count:Int!){
+      getUserList(count: $count){
+        _id,
+        username
+        avatarURI
+      }
+    }`,
+    variables: {
+      count: count
+    }
+  }
+}

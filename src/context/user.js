@@ -4,6 +4,7 @@ export const UserContext = createContext({
   user: "",
   token: "",
   refreshToken: "",
+  error: "",
   setUser: () => {},
   setToken: () => {},
   setRefreshToken: () => {},
