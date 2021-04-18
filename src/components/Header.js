@@ -91,7 +91,6 @@ function Header() {
             </Link>
           </div>
           <div className="text-gray text-center flex items-center align-items justify-spacebetween">
-            {/* {user, setUser, setToken, setRefreshToken} */}
             <CalltoActionWidget
               user={user}
               setUser={setUser}

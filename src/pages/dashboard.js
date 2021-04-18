@@ -11,7 +11,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     console.log("dashboard rendert");
-
   }, []);
 
   return (

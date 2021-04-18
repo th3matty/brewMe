@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ReactComponent as SearchIcon } from "../../svg/search.svg";
 import SearchSingleUser from "../modal/SearchUserModal";
-import ShowRecentlyAddedUser from "./CallForUserWidget";
+import ShowRecentlyAddedUser from "./RecentAddedUser";
 
 function ShowAndSearchUser() {
   const [openSingleUserModal, setSingleUserModal] = useState(false);

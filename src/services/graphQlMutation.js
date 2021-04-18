@@ -17,19 +17,22 @@ import {
         body: JSON.stringify(getAllUserList),
       });
       const searchResult = await searchUserName.json();
-      console.log("searchResult:", searchResult);
+      console.info("searchResult:", searchResult);
   
       if (!searchResult) {
         throw new Error("Something went wrong");
       }
   
-      if (searchResult.data.getUserList.length === 0) {
-        const message = "\u274C woops, no user found \u274C";
-        return message;
-      } else {
-        const user = searchResult.data.getUserList[0];
-        return user;
-      }
+      // if (searchResult.data.getUserList.length === 0) {
+      //   const message = "\u274C woops, no user found \u274C";
+      //   return [message];
+      // } else {
+      //   const user = searchResult.data.getUserList[0];
+      //   return user;
+      // }
+      const user = searchResult.data.getUserList[0];
+      return user;
+      
     } catch (err) {
       console.log(err);
     }

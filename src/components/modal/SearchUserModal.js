@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { SearchForSingleUser } from "../../services/graphQlMutation";
+import RenderUser from "../showUser/RenderUser";
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
 
 function SearchUserModal({ displayModal }) {
   const [userName, setUserName] = useState("");
-  const [searchResult, setSearchResult] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   const { token } = useContext(UserContext);
 
@@ -14,11 +15,11 @@ function SearchUserModal({ displayModal }) {
     SearchForSingleUser(userName, token)
       .then((res) => setSearchResult(res))
       .catch((err) => console.log(err));
-    setUserName("")
+    setUserName("");
   };
 
   useEffect(() => {
-    console.log("searchResult in Modal:", searchResult);
+    console.log("searchResult in Modal:", typeof searchResult, searchResult);
   }, [searchResult]);
 
   return (
@@ -54,7 +55,11 @@ function SearchUserModal({ displayModal }) {
                 {" "}
                 Search
               </button>
-              <div className="ml-1 mt-3 text-s">{searchResult.username || searchResult}</div>
+              {searchResult !== undefined ? (
+                <RenderUser value={searchResult} />
+              ) : (
+                <p className="ml-1 mt-3 text-s"> woops, no user found {"\u274C"} </p>
+              )}
             </div>
             {/*footer*/}
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
