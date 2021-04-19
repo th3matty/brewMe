@@ -8,7 +8,11 @@ module.exports = {
       lg: "976px",
       xl: "1440px",
     },
-    extend: {},
+    extend: {
+      backgroundImage: theme => ({
+        "darthmaul": "url('/src/dist/avatars/avatarDarthMaul.svg')"
+      })
+    },
   },
   variants: {
     extend: {},

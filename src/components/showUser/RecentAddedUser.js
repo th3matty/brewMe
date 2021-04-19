@@ -28,7 +28,7 @@ function ShowRecentlyAddedUser({ count }) {
   return (
     <div className="flex space-x-3">
       {userList.map((item) => (
-        <RenderUser value={item} key={item.id}/>
+        <RenderUser value={item} key={item._id}/>
       ))}
     </div>
   );

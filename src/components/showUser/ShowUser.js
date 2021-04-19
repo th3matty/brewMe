@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ReactComponent as SearchIcon } from "../../svg/search.svg";
 import SearchSingleUser from "../modal/SearchUserModal";
-import ShowRecentlyAddedUser from "./RecentAddedUser";
+import RecentlyAddedUser from "./RecentAddedUser";
 
 function ShowAndSearchUser() {
   const [openSingleUserModal, setSingleUserModal] = useState(false);
@@ -21,7 +21,7 @@ function ShowAndSearchUser() {
       </div>
       <div className="container overflow-x-auto p-3">
         {" "}
-        <ShowRecentlyAddedUser count={20}/>
+        <RecentlyAddedUser count={20}/>
       </div>
       {openSingleUserModal ? (
         <SearchSingleUser displayModal={displayModal} />
