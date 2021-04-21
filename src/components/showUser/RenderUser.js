@@ -26,7 +26,7 @@ function RenderUser({ value }) {
   return (
     <div key={_id} className="w-screen">
       {/* CardContainer */}
-      <div className="rounded-full h-12 w-12 mr-4 mt-4">
+      <div className="rounded-full h-12 w-12 ml-2 mr-4 mt-4">
         {/* AVATAR */}
         <img
           title={username}
@@ -42,7 +42,7 @@ function RenderUser({ value }) {
       <div
         className={
           (popoverShow ? "" : "hidden ") +
-          "bg-pink-600 border-0 mt-2 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg"
+          "bg-pink-600 border-0 ml-2 mt-2 block z-50 font-normal leading-normal text-sm max-w-xs text-left no-underline break-words rounded-lg"
         }
         ref={popoverRef}
       >

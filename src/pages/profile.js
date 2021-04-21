@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import PrefetchFunction from "../hooks/usePrefetch";
 import { UserContext } from "../context/user";
+import ChooseAvatar from "../components/modal/ChooseAvatar";
 
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
@@ -10,27 +11,32 @@ import Background from "../dist/hopfenBG.jpg";
 
 function Profile() {
   const [auth, setAuth] = useState(false);
+  const [openAvatarModal, setOpenAvatarModal] = useState(false);
+  const [avatar, setAvatar] = useState("/default_user.png");
 
-  const { user } = useContext(UserContext);
+  const { user, token, setUser } = useContext(UserContext);
   const { followers, following, username, emailAddress } = user;
 
-  const avatarsList = [
-      "/boy_default.png",
-      "/avatarBoyGlasses.svg"
-  ];
-  const IMG_PATH = '/avatars/'
+  const IMG_PATH = "/avatars/";
 
   const checkPrefetch = PrefetchFunction()
     .then((res) => setAuth(res))
     .catch((err) => console.log("err in porfile:", err));
 
+  const displayModal = (argBool) => {
+    setOpenAvatarModal(argBool);
+  };
+  const getAvatar = (argString) => {
+    setAvatar(argString);
+  };
+
   useEffect(() => {
     document.title = "BrewMe - Profile";
     console.log("Profile rendert");
-  }, []);
+    console.log("user is neu im Profil", user);
+  }, [user]);
   return (
     <>
-      {/* Dashboard */}
       {auth === true ? (
         <main>
           <section className="relative block" style={{ height: "500px" }}>
@@ -61,19 +67,51 @@ function Profile() {
                 <div className="px-6">
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
-                      <div className="relative rounded-full mt-2 w-24 h-auto align-middle border-none absolute">
-                        <img alt="imageUser" src={process.env.PUBLIC_URL + IMG_PATH +`${avatarsList[1]}`} />
+                      <div className="rounded-full mt-2 w-24 h-auto align-middle border-none  cursor-pointer">
+                      {/* In der Funktion des Avatars auswählen muss ich den User neu im Context setzen! 
+                        oder ich guck mir nochmal die Setter von avatar an 
+                      */}
+                      {/* <img
+                            src={
+                              process.env.PUBLIC_URL +
+                              IMG_PATH +
+                              `${user.settings.avatarURI || avatar}`
+                            }
+                            alt="profilePic"
+                            onClick={() => setOpenAvatarModal(true)}
+                          /> */}
+                        {user.settings.avatarURI !== "" ? (
+                          <img
+                            src={
+                              process.env.PUBLIC_URL +
+                              IMG_PATH +
+                              `${user.settings.avatarURI}`
+                            }
+                            alt="profilePic"
+                            onClick={() => setOpenAvatarModal(true)}
+                          />
+                        ) : (
+                          <img
+                            src={
+                              process.env.PUBLIC_URL + IMG_PATH + `${avatar}`
+                            }
+                            alt="profilePic"
+                            onClick={() => setOpenAvatarModal(true)}
+                          />
+                        )}
                       </div>
                     </div>
+                    {openAvatarModal ? (
+                      <ChooseAvatar
+                        displayModal={displayModal}
+                        getAvatar={getAvatar}
+                        setUser ={setUser}
+                        token={token}
+                      />
+                    ) : null}
                     <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                      <div className="py-6 px-3 mt-32 sm:mt-0">
-                        <button
-                          className="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1"
-                          type="button"
-                          style={{ transition: "all .15s ease" }}
-                        >
-                          Settings
-                        </button>
+                      <div className="py-6 px-3 mt-1 sm:mt-0">
+                        <span></span>
                       </div>
                     </div>
                     <div className="w-full lg:w-4/12 px-4 lg:order-1">

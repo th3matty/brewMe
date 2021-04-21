@@ -14,8 +14,8 @@ function SearchUserModal({ displayModal }) {
     e.preventDefault();
     SearchForSingleUser(userName, token)
       .then((res) => setSearchResult(res))
+      .then(() => setUserName(""))
       .catch((err) => console.log(err));
-    setUserName("");
   };
 
   useEffect(() => {
@@ -30,7 +30,7 @@ function SearchUserModal({ displayModal }) {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl font-semibold">
+              <h3 className="text-3xl ml-2 font-semibold">
                 Search for other Brewer!
               </h3>
               <button
@@ -49,14 +49,14 @@ function SearchUserModal({ displayModal }) {
                 }
               />
               <button
-                className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-1 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
+                className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-2 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
                 onClick={handleSearch}
               >
                 {" "}
                 Search
               </button>
               {searchResult !== undefined ? (
-                <RenderUser value={searchResult} />
+                <RenderUser value={searchResult} className="ml-2" />
               ) : (
                 <p className="ml-1 mt-3 text-s"> woops, no user found {"\u274C"} </p>
               )}

@@ -8,6 +8,7 @@ import {
   userLoginMethodGraphQl,
   queryGetUserDetails,
 } from "../services/graphQlQueries";
+import Background from "../dist/wallpapertip_bier-wallpaper_496226.jpg";
 
 export default function Login({ getUserObjAndToken }) {
   const history = useHistory();
@@ -79,13 +80,15 @@ export default function Login({ getUserObjAndToken }) {
   useEffect(() => {
     document.title = "BrewMe - Login";
   }, []);
-
   return (
-    <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
+    <div
+      className="flex flex-col mx-auto w-full h-full items-center h-screen bg-center bg-no-repeat bg-cover"
+      style={{ backgroundImage: `url(${Background})` }}
+    >
       {helper && <p className="m-4 text-s text-green-500">{helper}</p>}
       {error && <p className="m-4 text-s text-red-500"> {error}</p>}
-      <BrewMeLogo />
-      <div className="flex items-center bg-white p-4 border mb-4 mt-4">
+      <BrewMeLogo className="w-32 h-32"/>
+      <div className="flex items-center bg-white p-4 border mb-4 mt-4 rounded-br-lg">
         <form onSubmit={handleLogin}>
           <input
             type="text"
@@ -116,7 +119,7 @@ export default function Login({ getUserObjAndToken }) {
           </button>
         </form>
       </div>
-      <div className="flex justify-center items-center flex-col  bg-white p-4 border">
+      <div className="flex justify-center items-center flex-col  bg-white p-4 border rounded-br-lg">
         <p className="text-m"> Dont have an account?</p>
         <Link to={ROUTES.SIGN_UP}> Sign Up</Link>
       </div>

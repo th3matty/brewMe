@@ -8,12 +8,10 @@ import { ReactComponent as HomeIcon } from "../svg/home.svg";
 import { ReactComponent as LogoutIcon } from "../svg/logout.svg";
 import defaultUserPic from "../dist/avatars/boy_default.png";
 
-function CalltoActionWidget({
-  user,
-  setUser,
-  setToken,
-  setRefreshToken,
-}) {
+function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
+  const IMG_PATH = "/avatars/";
+  const avatar = "/default_user.png";
+
   if (user === null || user === undefined || user === "") {
     return (
       <>
@@ -46,12 +44,21 @@ function CalltoActionWidget({
         {/* Profile */}
         <div className="cursor-pointer">
           <Link to={user.username && `/p/${user.username}`}>
-            <img
-              className="rounded-full h-8 w-8 flex mr-4 mt-4"
-              title="Profile"
-              src={defaultUserPic}
-              alt={user.username && `/p/${user.username}`}
-            />
+            {user.settings.avatarURI !== "" ? (
+              <img
+                className="rounded-full h-8 w-8 flex mr-4 mt-4"
+                title="Profile"
+                src={process.env.PUBLIC_URL + IMG_PATH + `${user.settings.avatarURI}`}
+                alt={user.username && `/p/${user.username}`}
+              />
+            ) : (
+              <img
+                className="rounded-full h-8 w-8 flex mr-4 mt-4"
+                title="Profile"
+                src={process.env.PUBLIC_URL + IMG_PATH + `${avatar}`}
+                alt={user.username && `/p/${user.username}`}
+              />
+            )}
           </Link>
         </div>
         {/* SignOut */}
@@ -72,22 +79,20 @@ function CalltoActionWidget({
 }
 
 function Header() {
-  const { user, setUser, setToken, setRefreshToken } = useContext(
-    UserContext
-  );
+  const { user, setUser, setToken, setRefreshToken } = useContext(UserContext);
 
   useEffect(() => {
     document.title = "BrewMe - Dashboard";
-    console.log("Header - rendert");
+    console.log("Header - rendert", user);
   }, []);
 
   return (
-    <header className="h-16 bg-white border-b mb-8">
+    <header className="h-16 bg-yellow-300 bg-opacity-75 border-b mb-8">
       <div className="container mx-auto max-width-lg h-full">
         <div className="flex justify-between h-full">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
-              <BrewMeLogo alt="BrewMe" className="ml-2"/>
+              <BrewMeLogo alt="BrewMe" className="ml-2" />
             </Link>
           </div>
           <div className="text-gray text-center flex items-center align-items justify-spacebetween">
