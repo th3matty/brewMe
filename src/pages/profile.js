@@ -20,7 +20,7 @@ function Profile() {
   const [openInputField, setOpenInputField] = useState(false);
   const [description, setDescription] = useState("");
 
-  const [avatar] = "/default_user.png";
+  const avatar = "/default_user.png";
 
   const { user, token, setUser } = useContext(UserContext);
   const { followers, following, username, emailAddress } = user;

@@ -7,28 +7,30 @@ import {
 } from "../services/graphQlQueries";
 
 export const SearchForSingleUser = async (userName, token) => {
-  const getAllUserList = getUserList(userName);
+  if (userName && token) {
+    const getAllUserList = getUserList(userName);
 
-  try {
-    const searchUserName = await fetch(graphQl_Uri, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(getAllUserList),
-    });
-    const searchResult = await searchUserName.json();
-    console.info("searchResult:", searchResult);
+    try {
+      const searchUserName = await fetch(graphQl_Uri, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(getAllUserList),
+      });
+      const searchResult = await searchUserName.json();
+      console.info("searchResult:", searchResult);
 
-    if (!searchResult) {
-      throw new Error("Something went wrong");
+      if (!searchResult) {
+        throw new Error("Something went wrong");
+      }
+
+      const user = searchResult.data.getUserList[0];
+      return user;
+    } catch (err) {
+      console.log(err);
     }
-
-    const user = searchResult.data.getUserList[0];
-    return user;
-  } catch (err) {
-    console.log(err);
   }
 };
 
@@ -45,7 +47,7 @@ export const GetUserList = async (count, token) => {
       body: JSON.stringify(getAllUserList),
     });
     const resultUserList = await userList.json();
-    console.info(resultUserList);
+    console.info("resultUserList:", resultUserList);
 
     if (!resultUserList) {
       throw new Error("Something went wrong");
@@ -64,7 +66,6 @@ export const GetUserList = async (count, token) => {
 
 export const SetUserAvatar = async (avatar, token, setUser) => {
   const setSettings = setUserAvatar(avatar);
-  
 
   try {
     const setSetting = await fetch(graphQl_Uri, {
@@ -76,13 +77,12 @@ export const SetUserAvatar = async (avatar, token, setUser) => {
       body: JSON.stringify(setSettings),
     });
     const setSettingResult = await setSetting.json();
-    
-    if(!setSettingResult){
-      throw new Error("something went wrong")
-    }
-    const user = await setSettingResult.data.setUserSettings
-    return setUser(user)
 
+    if (!setSettingResult) {
+      throw new Error("something went wrong");
+    }
+    const user = await setSettingResult.data.setUserSettings;
+    return setUser(user);
   } catch (err) {
     console.log(err);
   }
@@ -90,7 +90,6 @@ export const SetUserAvatar = async (avatar, token, setUser) => {
 
 export const SetUserDescription = async (description, token, setUser) => {
   const setSettings = setUserDescription(description);
-  
 
   try {
     const setSetting = await fetch(graphQl_Uri, {
@@ -102,13 +101,12 @@ export const SetUserDescription = async (description, token, setUser) => {
       body: JSON.stringify(setSettings),
     });
     const setSettingResult = await setSetting.json();
-    
-    if(!setSettingResult){
-      throw new Error("something went wrong")
-    }
-    const user = await setSettingResult.data.setUserSettings
-    return setUser(user)
 
+    if (!setSettingResult) {
+      throw new Error("something went wrong");
+    }
+    const user = await setSettingResult.data.setUserSettings;
+    return setUser(user);
   } catch (err) {
     console.log(err);
   }

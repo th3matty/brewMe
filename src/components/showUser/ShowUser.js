@@ -21,7 +21,7 @@ function ShowAndSearchUser() {
       </div>
       <div className="overflow-x-auto p-3">
         {" "}
-        <RecentlyAddedUser count={20}/>
+        <RecentlyAddedUser count={20} />
       </div>
       {openSingleUserModal ? (
         <SearchSingleUser displayModal={displayModal} />
