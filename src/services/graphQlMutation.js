@@ -3,6 +3,7 @@ import {
   getUserList,
   getUserListByCount,
   setUserAvatar,
+  setUserDescription,
 } from "../services/graphQlQueries";
 
 export const SearchForSingleUser = async (userName, token) => {
@@ -75,8 +76,33 @@ export const SetUserAvatar = async (avatar, token, setUser) => {
       body: JSON.stringify(setSettings),
     });
     const setSettingResult = await setSetting.json();
-    console.info("setSettingResult:", setSettingResult);
+    
+    if(!setSettingResult){
+      throw new Error("something went wrong")
+    }
+    const user = await setSettingResult.data.setUserSettings
+    return setUser(user)
 
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const SetUserDescription = async (description, token, setUser) => {
+  const setSettings = setUserDescription(description);
+  
+
+  try {
+    const setSetting = await fetch(graphQl_Uri, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(setSettings),
+    });
+    const setSettingResult = await setSetting.json();
+    
     if(!setSettingResult){
       throw new Error("something went wrong")
     }

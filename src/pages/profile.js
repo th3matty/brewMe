@@ -5,14 +5,22 @@ import ChooseAvatar from "../components/modal/ChooseAvatar";
 
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+
 import { ReactComponent as HomeIcon } from "../svg/home.svg";
 import { ReactComponent as EmailIcon } from "../svg/email.svg";
+import { ReactComponent as EditIcon } from "../svg/editDescription.svg";
+import { ReactComponent as CheckIcon } from "../svg/checkInput.svg";
 import Background from "../dist/hopfenBG.jpg";
+
+import { SetUserDescription } from "../services/graphQlMutation";
 
 function Profile() {
   const [auth, setAuth] = useState(false);
   const [openAvatarModal, setOpenAvatarModal] = useState(false);
-  const [avatar, setAvatar] = useState("/default_user.png");
+  const [openInputField, setOpenInputField] = useState(false);
+  const [description, setDescription] = useState("");
+
+  const [avatar] = "/default_user.png";
 
   const { user, token, setUser } = useContext(UserContext);
   const { followers, following, username, emailAddress } = user;
@@ -26,14 +34,14 @@ function Profile() {
   const displayModal = (argBool) => {
     setOpenAvatarModal(argBool);
   };
-  const getAvatar = (argString) => {
-    setAvatar(argString);
+
+  const toggleInput = () => {
+    setOpenInputField(!openInputField);
   };
 
   useEffect(() => {
     document.title = "BrewMe - Profile";
-    console.log("Profile rendert");
-    console.log("user is neu im Profil", user);
+    console.log("user in profile", user);
   }, [user]);
   return (
     <>
@@ -49,16 +57,7 @@ function Profile() {
               <span
                 id="blackOverlay"
                 className="w-full h-full absolute opacity-40 bg-black"
-              >
-                <div className="cursor-pointer">
-                  <Link to={ROUTES.DASHBOARD}>
-                    <HomeIcon
-                      className="mt-4 mr-3 stroke-white"
-                      title="Dashboard"
-                    />
-                  </Link>
-                </div>
-              </span>
+              ></span>
             </div>
           </section>
           <section className="relative py-32 bg-gray-200">
@@ -68,18 +67,6 @@ function Profile() {
                   <div className="flex flex-wrap justify-center">
                     <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                       <div className="rounded-full mt-2 w-24 h-auto align-middle border-none  cursor-pointer">
-                      {/* In der Funktion des Avatars auswählen muss ich den User neu im Context setzen! 
-                        oder ich guck mir nochmal die Setter von avatar an 
-                      */}
-                      {/* <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              IMG_PATH +
-                              `${user.settings.avatarURI || avatar}`
-                            }
-                            alt="profilePic"
-                            onClick={() => setOpenAvatarModal(true)}
-                          /> */}
                         {user.settings.avatarURI !== "" ? (
                           <img
                             src={
@@ -104,14 +91,15 @@ function Profile() {
                     {openAvatarModal ? (
                       <ChooseAvatar
                         displayModal={displayModal}
-                        getAvatar={getAvatar}
-                        setUser ={setUser}
+                        setUser={setUser}
                         token={token}
                       />
                     ) : null}
-                    <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-                      <div className="py-6 px-3 mt-1 sm:mt-0">
-                        <span></span>
+                    <div className="w-full lg:w-4/12 px-4 lg:order-3 lg:self-center">
+                      <div className="mt-24 sm:mt-0">
+                        <Link to={ROUTES.DASHBOARD}>
+                          <HomeIcon title="Dashboard" />
+                        </Link>
                       </div>
                     </div>
                     <div className="w-full lg:w-4/12 px-4 lg:order-1">
@@ -146,15 +134,39 @@ function Profile() {
                       {emailAddress}
                     </div>
                   </div>
-                  <div className="mt-10 py-10 border-t border-gray-300 text-center">
-                    <div className="flex flex-wrap justify-center">
-                      <div className="w-full lg:w-9/12 px-4">
-                        <p className="mb-4 text-lg leading-relaxed text-gray-800">
-                          A little bit about yourself or the gear you are using
-                        </p>
-                      </div>
-                    </div>
+                  <div className=" flex mb-2 justify-center text-gray-700 mt-10 border-t border-gray-300">
+                    <span>
+                      <EditIcon
+                        className="mt-3 mr-2 w-6 h-6"
+                        onClick={toggleInput}
+                      />
+                    </span>
+                    {user.settings.description !== "" ? (
+                      <p className="mt-3 mb-4 text-lg leading-relaxed text-gray-800">
+                        {" "}
+                        {user.settings.description}{" "}
+                      </p>
+                    ) : null}
                   </div>
+                  {openInputField ? (
+                    <div className="flex justify-center">
+                      <input
+                        type="text"
+                        placeholder="something about you :)"
+                        className="px-2 py-1 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-m border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                        onChange={({ target }) => setDescription(target.value)}
+                      />
+                      <span>
+                        <CheckIcon
+                          className="mt-1 ml-2 w-6 h-6"
+                          onClick={() => {
+                            SetUserDescription(description, token, setUser);
+                            setOpenInputField(false);
+                          }}
+                        />
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </div>

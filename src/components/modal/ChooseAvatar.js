@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { SetUserAvatar } from "../../services/graphQlMutation";
 
-function ChooseAvatar({ displayModal, getAvatar, token , setUser}) {
+function ChooseAvatar({ displayModal, token, setUser }) {
   const IMG_PATH = "/avatars/";
 
   const avatarsList = [
@@ -44,7 +44,6 @@ function ChooseAvatar({ displayModal, getAvatar, token , setUser}) {
                   src={process.env.PUBLIC_URL + IMG_PATH + `${avatar}`}
                   className="w-24 h-24 cursor-pointer m-1"
                   onClick={() => {
-                    getAvatar(avatar);
                     SetUserAvatar(avatar, token, setUser);
                   }}
                 />

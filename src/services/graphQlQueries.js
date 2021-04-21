@@ -126,3 +126,26 @@ export const setUserAvatar = (avatarURI) =>{
     }
   }
 }
+
+export const setUserDescription = (description) => {
+  return {
+    query: `mutation SetUserSettings($description:String){
+      setUserSettings(inputSettings:{
+        description:$description
+      }){
+        _id,
+        username,
+        emailAddress,
+        followers,
+        following
+        settings{
+          avatarURI,
+          description
+        }
+      }
+    }`,
+    variables: {
+      description: description,
+    }
+  }
+}
