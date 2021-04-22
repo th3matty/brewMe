@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
+import Background from "../dist/wallpapertip_bier-wallpaper_496226.jpg";
 import {
   graphQl_Uri,
   createUserMethodGraphQl,
@@ -17,7 +18,6 @@ export default function SignUp() {
   const [helper, setHelpler] = useState("");
   const isInvalid = userName === "" || password === "" || emailAddress === "";
 
-  // mongoDB method from services
   const userSignUp = createUserMethodGraphQl(
     userName,
     password,
@@ -60,11 +60,14 @@ export default function SignUp() {
   }, []);
 
   return (
-    <div className="container flex flex-col mx-auto max-w-screen-md items-center h-screen">
+    <div
+      className="flex flex-col mx-auto w-full h-full items-center h-screen bg-center bg-no-repeat bg-cover"
+      style={{ backgroundImage: `url(${Background})` }}
+    >
       {error && <p className="m-4 text-s text-red-500"> {error}</p>}
       {helper && <p className="m-4 text-s text-green-500">{helper}</p>}
-      <BrewMeLogo />
-      <div className="flex items-center bg-white p-4 border mb-4 mt-4">
+      <BrewMeLogo className="w-32 h-32" />
+      <div className="flex items-center bg-white p-4 border mb-4 mt-4 rounded-br-lg">
         <form onSubmit={handleSignUp}>
           <input
             type="text"
@@ -114,7 +117,7 @@ export default function SignUp() {
           </button>
         </form>
       </div>
-      <div className="flex justify-center items-center flex-col  bg-white p-4 border">
+      <div className="flex justify-center items-center flex-col  bg-white p-4 border rounded-br-lg">
         <p className="text-m"> Already have an account?</p>
         <Link to={ROUTES.LOGIN}> Login In</Link>
       </div>

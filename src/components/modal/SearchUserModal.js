@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { SearchForSingleUser } from "../../services/graphQlMutation";
 import RenderUser from "../showUser/RenderUser";
+
 import { useContext } from "react";
 import { UserContext } from "../../context/user";
 
 function SearchUserModal({ displayModal }) {
+  const { token } = useContext(UserContext);
   const [userName, setUserName] = useState("");
   const [searchResult, setSearchResult] = useState([]);
 
-  const { token } = useContext(UserContext);
+  const isInvalid = userName === "";
 
   const handleSearch = (e) => {
     e.preventDefault();
+
     SearchForSingleUser(userName, token)
       .then((res) => setSearchResult(res))
+      .then(() => setUserName(""))
       .catch((err) => console.log(err));
-    setUserName("");
   };
-
-  useEffect(() => {
-    console.log("searchResult in Modal:", typeof searchResult, searchResult);
-  }, [searchResult]);
-
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -30,7 +28,7 @@ function SearchUserModal({ displayModal }) {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             {/*header*/}
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-              <h3 className="text-3xl font-semibold">
+              <h3 className="text-3xl ml-2 font-semibold">
                 Search for other Brewer!
               </h3>
               <button
@@ -43,22 +41,33 @@ function SearchUserModal({ displayModal }) {
               <input
                 type="text"
                 placeholder="Search for username?"
-                className="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                className="px-4 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
+                value={userName}
+                onFocus={() => setUserName("")}
                 onChange={({ target }) =>
                   setUserName(target.value.toLowerCase())
                 }
               />
               <button
-                className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-1 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
+                disabled={isInvalid}
+                type="submit"
+                // className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-2 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
+                className={`mt-2 bg-blue-500 text-white w-full rounded h-8 font-bold ${
+                  isInvalid && "cursor-not-allowed opacity-50"
+                }`}
+                style={{ cursor: "pointer" }}
                 onClick={handleSearch}
               >
                 {" "}
                 Search
               </button>
               {searchResult !== undefined ? (
-                <RenderUser value={searchResult} />
+                <RenderUser value={searchResult} className="ml-2" />
               ) : (
-                <p className="ml-1 mt-3 text-s"> woops, no user found {"\u274C"} </p>
+                <p className="ml-1 mt-3 text-s">
+                  {" "}
+                  woops, no user found {"\u274C"}{" "}
+                </p>
               )}
             </div>
             {/*footer*/}

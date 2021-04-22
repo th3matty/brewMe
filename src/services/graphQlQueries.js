@@ -49,7 +49,12 @@ export const queryGetUserDetails = () => {
               followers,
               following,
               createdAt,
-              updatedAt
+              updatedAt,
+              settings{
+                avatarURI,
+                description,
+                darkmode,
+              }
             }
           }`,
   };
@@ -74,8 +79,8 @@ export const getUserList = (filterByName) =>{
     query: `query GetUserList($filterByName:String!){
       getUserList(filterByName: $filterByName){
         _id,
-        username
-        avatarURI
+        username,
+        avatarURI,
       }
     }`,
     variables: {
@@ -89,12 +94,58 @@ export const getUserListByCount = (count) =>{
     query: `query GetUserList($count:Int!){
       getUserList(count: $count){
         _id,
-        username
-        avatarURI
+        username,
+        avatarURI,
       }
     }`,
     variables: {
       count: count
+    }
+  }
+}
+
+export const setUserAvatar = (avatarURI) =>{
+  return {
+    query: `mutation SetUserSettings($avatarURI:String){
+      setUserSettings(inputSettings:{
+        avatarURI:$avatarURI
+      }){
+        _id,
+        username,
+        emailAddress,
+        followers,
+        following
+        settings{
+          avatarURI,
+          description
+        }
+      }
+    }`,
+    variables: {
+      avatarURI: avatarURI,
+    }
+  }
+}
+
+export const setUserDescription = (description) => {
+  return {
+    query: `mutation SetUserSettings($description:String){
+      setUserSettings(inputSettings:{
+        description:$description
+      }){
+        _id,
+        username,
+        emailAddress,
+        followers,
+        following
+        settings{
+          avatarURI,
+          description
+        }
+      }
+    }`,
+    variables: {
+      description: description,
     }
   }
 }
