@@ -51,7 +51,6 @@ function SearchUserModal({ displayModal }) {
               <button
                 disabled={isInvalid}
                 type="submit"
-                // className="text-blue-500 background-transparent font-bold uppercase mt-4 ml-2 text-sm outline-none focus:outline-none  ease-linear transition-all duration-150"
                 className={`mt-2 bg-blue-500 text-white w-full rounded h-8 font-bold ${
                   isInvalid && "cursor-not-allowed opacity-50"
                 }`}
