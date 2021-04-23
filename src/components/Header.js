@@ -6,7 +6,6 @@ import * as ROUTES from "../constants/routes";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
 import { ReactComponent as HomeIcon } from "../svg/home.svg";
 import { ReactComponent as LogoutIcon } from "../svg/logout.svg";
-import defaultUserPic from "../dist/avatars/boy_default.png";
 
 function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
   const IMG_PATH = "/avatars/";
@@ -38,7 +37,7 @@ function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
         {/* Dashboard */}
         <div className="cursor-pointer">
           <Link to={ROUTES.DASHBOARD}>
-            <HomeIcon className="mt-4 mr-3" title="Dashboard" />
+            <HomeIcon className="mt-1 mr-3" title="Dashboard" />
           </Link>
         </div>
         {/* Profile */}
@@ -46,14 +45,18 @@ function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
           <Link to={user.username && `/p/${user.username}`}>
             {user.settings.avatarURI !== "" ? (
               <img
-                className="rounded-full h-8 w-8 flex mr-4 mt-4"
+                className="rounded-full h-8 w-8 flex mr-4 mt-1"
                 title="Profile"
-                src={process.env.PUBLIC_URL + IMG_PATH + `${user.settings.avatarURI}`}
+                src={
+                  process.env.PUBLIC_URL +
+                  IMG_PATH +
+                  `${user.settings.avatarURI}`
+                }
                 alt={user.username && `/p/${user.username}`}
               />
             ) : (
               <img
-                className="rounded-full h-8 w-8 flex mr-4 mt-4"
+                className="rounded-full h-8 w-8 flex mr-4 mt-1"
                 title="Profile"
                 src={process.env.PUBLIC_URL + IMG_PATH + `${avatar}`}
                 alt={user.username && `/p/${user.username}`}
@@ -64,7 +67,7 @@ function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
         {/* SignOut */}
         <Link to={ROUTES.LOGIN}>
           <LogoutIcon
-            className="mt-4 mr-2"
+            className="mt-1 mr-2"
             title="Sign Out"
             onClick={() => {
               setUser(null);
@@ -87,15 +90,15 @@ function Header() {
   }, []);
 
   return (
-    <header className="h-16 bg-yellow-300 bg-opacity-75 border-b mb-8">
-      <div className="container mx-auto max-width-lg h-full">
-        <div className="flex justify-between h-full">
+    <header className=" relative bg-yellow-300 bg-opacity-75 border-b mb-8">
+      <div className="container mx-auto max-width-lg h-full flex flex-row-reverse">
+        <div className="flex flex-row justify-center h-full mt-3">
           <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
-              <BrewMeLogo alt="BrewMe" className="ml-2" />
+              <BrewMeLogo alt="BrewMe" className="mr-12 mb-2" />
             </Link>
           </div>
-          <div className="text-gray text-center flex items-center align-items justify-spacebetween">
+          <div className="flex  text-gray text-center items-center justify-spacebetween mr-2 mb-2 ">
             <CalltoActionWidget
               user={user}
               setUser={setUser}

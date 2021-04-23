@@ -4,6 +4,8 @@ import UserContextProvider from "./context/user";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
 const Dashboard = lazy(() => import("./pages/dashboard"));
 const Login = lazy(() => import("./pages/login"));
 const SignUp = lazy(() => import("./pages/signup"));
