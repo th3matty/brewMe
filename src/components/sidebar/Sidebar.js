@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
-
-
-// pass value true or false to ShowANdSearchUser.comp
-// if false, show overflow-x-auto 
-// else "hidden" ??
-// das könnte eine option für den overflow sein.
-
-// carousell machen für die Avatare?
+import SearchSingleUser from "../modal/SearchUserModal";
+import { ReactComponent as SearchIcon } from "../../svg/search.svg";
 
 function Sidebar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
+  const [openSingleUserModal, setSingleUserModal] = useState(false);
+
+  const displayModal = (argBool) => {
+    setSingleUserModal(argBool);
+  };
+
   return (
     <>
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -59,7 +59,20 @@ function Sidebar() {
               </Link>
             </li>
           </ul>
-          <hr className="my-4 md:min-w-full" />
+          <hr className="my-3 md:min-w-full" />
+          {/* Form */}
+          <div className="mt-6 mb-5 lg:hidden">
+            <SearchIcon
+              className="h-10 w-10 cursor-pointer"
+              title="Search"
+              onClick={() => setSingleUserModal(true)}
+            />
+          </div>
+          {/* Modal for SingleUserSearch */}
+          {openSingleUserModal ? (
+            <SearchSingleUser displayModal={displayModal} />
+          ) : null}
+
           {/* Navigation */}
           <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4 overflow-x-hidden">
             <li className="inline-flex">

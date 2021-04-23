@@ -28,7 +28,7 @@ function RenderUser({ value }) {
   }, [username]);
 
   return (
-    <div key={_id} className="w-screen">
+    <div key={_id}>
       {/* CardContainer */}
       <div className="rounded-full h-12 w-12 ml-2 mr-4 mt-4 cursor-pointer">
         {/* AVATAR */}

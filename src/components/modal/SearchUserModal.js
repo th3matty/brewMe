@@ -40,7 +40,7 @@ function SearchUserModal({ displayModal }) {
             <div className="relative p-6 flex-auto">
               <input
                 type="text"
-                placeholder="Search for username?"
+                placeholder="Search for user name?"
                 className="px-4 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none focus:ring w-full"
                 value={userName}
                 onFocus={() => setUserName("")}
