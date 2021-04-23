@@ -10,6 +10,7 @@ import { ReactComponent as HomeIcon } from "../svg/home.svg";
 import { ReactComponent as EmailIcon } from "../svg/email.svg";
 import { ReactComponent as EditIcon } from "../svg/editDescription.svg";
 import { ReactComponent as CheckIcon } from "../svg/checkInput.svg";
+import { ReactComponent as LoadingIcon } from "../svg/Ripple-1s-200px.svg";
 import Background from "../dist/hopfenBG.jpg";
 
 import { SetUserDescription } from "../services/graphQlMutation";
@@ -173,7 +174,9 @@ function Profile() {
           </section>
         </main>
       ) : (
-        <p> Loading... </p>
+        <div>
+          <LoadingIcon /> <p className="text-center">loading...</p>
+        </div>
       )}
     </>
   );

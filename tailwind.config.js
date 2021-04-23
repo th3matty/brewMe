@@ -9,9 +9,9 @@ module.exports = {
       xl: "1440px",
     },
     extend: {
-      backgroundImage: theme => ({
-        "darthmaul": "url('/src/dist/avatars/avatarDarthMaul.svg')"
-      })
+      animation: {
+        spin: "spin 1s linear infinite",
+      },
     },
   },
   variants: {

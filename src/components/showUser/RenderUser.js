@@ -3,9 +3,6 @@ import { createPopper } from "@popperjs/core";
 import { ReactComponent as AddToFavIcon } from "../../svg/AddToFav.svg";
 import { ReactComponent as FollowIcon } from "../../svg/FollowUser.svg";
 
-// imports for Testing
-import DarthMaul from "../../dist/avatars/avatarDarthMaul.svg";
-
 function RenderUser({ value }) {
   const { _id, username, avatarURI } = value;
   const [popoverShow, setPopoverShow] = useState(false);
@@ -33,7 +30,7 @@ function RenderUser({ value }) {
   return (
     <div key={_id} className="w-screen">
       {/* CardContainer */}
-      <div className="rounded-full h-12 w-12 ml-2 mr-4 mt-4">
+      <div className="rounded-full h-12 w-12 ml-2 mr-4 mt-4 cursor-pointer">
         {/* AVATAR */}
         {avatarURI !== "" ? (
           <img

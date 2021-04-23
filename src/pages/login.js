@@ -85,8 +85,8 @@ export default function Login({ getUserObjAndToken }) {
       className="flex flex-col mx-auto w-full h-full items-center h-screen bg-center bg-no-repeat bg-cover"
       style={{ backgroundImage: `url(${Background})` }}
     >
-      {helper && <p className="m-4 text-s text-green-500">{helper}</p>}
-      {error && <p className="m-4 text-s text-red-500"> {error}</p>}
+      {helper && <p className="m-4 text-l text-green-500">{helper}</p>}
+      {error && <p className="m-4 text-l text-red-500"> {error}</p>}
       <BrewMeLogo className="w-32 h-32"/>
       <div className="flex items-center bg-white p-4 border mb-4 mt-4 rounded-br-lg">
         <form onSubmit={handleLogin}>
