@@ -88,7 +88,7 @@ function Header() {
             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
               <BrewMeLogo alt="BrewMe" className="mt-2 mr-8 mb-2 cursor-pointer" />
             </Link>
-          <div className="flex text-center items-center  mr-2 mb-2 ">
+          <div className="flex text-center items-center mr-2 mb-2 ">
             <CalltoActionWidget
               user={user}
               setUser={setUser}
