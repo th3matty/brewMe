@@ -74,7 +74,7 @@ export const getRefreshTokenMethodGraphQL = (refreshToken) => {
   };
 };
 
-export const getUserList = (filterByName) =>{
+export const getUserList = (filterByName) => {
   return {
     query: `query GetUserList($filterByName:String!){
       getUserList(filterByName: $filterByName){
@@ -84,12 +84,12 @@ export const getUserList = (filterByName) =>{
       }
     }`,
     variables: {
-      filterByName: filterByName
-    }
-  }
-}
+      filterByName: filterByName,
+    },
+  };
+};
 
-export const getUserListByCount = (count) =>{
+export const getUserListByCount = (count) => {
   return {
     query: `query GetUserList($count:Int!){
       getUserList(count: $count){
@@ -99,12 +99,12 @@ export const getUserListByCount = (count) =>{
       }
     }`,
     variables: {
-      count: count
-    }
-  }
-}
+      count: count,
+    },
+  };
+};
 
-export const setUserAvatar = (avatarURI) =>{
+export const setUserAvatar = (avatarURI) => {
   return {
     query: `mutation SetUserSettings($avatarURI:String){
       setUserSettings(inputSettings:{
@@ -123,9 +123,9 @@ export const setUserAvatar = (avatarURI) =>{
     }`,
     variables: {
       avatarURI: avatarURI,
-    }
-  }
-}
+    },
+  };
+};
 
 export const setUserDescription = (description) => {
   return {
@@ -146,6 +146,28 @@ export const setUserDescription = (description) => {
     }`,
     variables: {
       description: description,
-    }
-  }
-}
+    },
+  };
+};
+
+export const followUser = (followUserID) => {
+  return {
+    query: `mutation FollowUser($followUserID:ID!){
+      followUser(followUserID: $followUserID)
+    }`,
+    variables: {
+      followUserID: followUserID,
+    },
+  };
+};
+
+export const addUserToFavourite = (favouriteID) => {
+  return {
+    query: `mutation AddUserToFavourites($favouriteID:ID!){
+      addUserToFavourites(favouriteID:$favouriteID)
+    }`,
+    variables: {
+      favouriteID: favouriteID,
+    },
+  };
+};

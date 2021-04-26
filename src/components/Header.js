@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
-import { ReactComponent as HomeIcon } from "../svg/home.svg";
 import { ReactComponent as LogoutIcon } from "../svg/logout.svg";
 
 function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
@@ -34,12 +33,6 @@ function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
   } else {
     return (
       <>
-        {/* Dashboard */}
-        <div className="cursor-pointer">
-          <Link to={ROUTES.DASHBOARD}>
-            <HomeIcon className="mt-1 mr-3" title="Dashboard" />
-          </Link>
-        </div>
         {/* Profile */}
         <div className="cursor-pointer">
           <Link to={user.username && `/p/${user.username}`}>
@@ -86,19 +79,16 @@ function Header() {
 
   useEffect(() => {
     document.title = "BrewMe - Dashboard";
-    console.log("Header - rendert", user);
   }, []);
 
   return (
-    <header className=" relative bg-yellow-300 bg-opacity-75 border-b mb-8">
-      <div className="container mx-auto max-width-lg h-full flex flex-row-reverse">
-        <div className="flex flex-row justify-center h-full mt-3">
-          <div className="text-gray-700 text-center flex items-center align-items cursor-pointer">
+    <header className="relative bg-yellow-300 bg-opacity-75 border-b mb-8">
+      <div className="flex justify-center md:mx-auto h-full flex md:justify-end">
+        <div className="flex h-full mt-3">
             <Link to={ROUTES.DASHBOARD} aria-label="Dashboard">
-              <BrewMeLogo alt="BrewMe" className="mr-12 mb-2" />
+              <BrewMeLogo alt="BrewMe" className="mt-2 mr-8 mb-2 cursor-pointer" />
             </Link>
-          </div>
-          <div className="flex  text-gray text-center items-center justify-spacebetween mr-2 mb-2 ">
+          <div className="flex text-center items-center mr-2 mb-2 ">
             <CalltoActionWidget
               user={user}
               setUser={setUser}

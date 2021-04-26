@@ -1,17 +1,108 @@
 import React, { useState } from "react";
+import PrefetchFunction from "../../hooks/usePrefetch";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
+import SearchSingleUser from "../modal/SearchUserModal";
+import { ReactComponent as SearchIcon } from "../../svg/search.svg";
 
+function CalltoActionWidget({ setSingleUserModal }) {
+  return (
+    <>
+      <div className="mt-6 mb-5 lg:hidden">
+        <SearchIcon
+          className="h-10 w-10 cursor-pointer"
+          title="Search"
+          onClick={() => setSingleUserModal(true)}
+        />
+      </div>
+      {/* (show in dashboard?) */}
+      <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4 overflow-x-hidden">
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Bier Kombinat
+          </Link>
+        </li>
 
-// pass value true or false to ShowANdSearchUser.comp
-// if false, show overflow-x-auto 
-// else "hidden" ??
-// das könnte eine option für den overflow sein.
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Recipes
+          </Link>
+        </li>
 
-// carousell machen für die Avatare?
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Create Recipes
+          </Link>
+        </li>
+        {/* (show in dashboard?) */}
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Followers
+          </Link>
+        </li>
+
+        {/* (show in dashboard?) */}
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Following
+          </Link>
+        </li>
+
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Darkmode (soon)
+          </Link>
+        </li>
+
+        <li className="inline-flex">
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to="/"
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Notification (soon)
+          </Link>
+        </li>
+      </ul>
+    </>
+  );
+}
 
 function Sidebar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
+  const [openSingleUserModal, setSingleUserModal] = useState(false);
+
+  const [auth, setAuth] = useState(false);
+  const checkPrefetch = PrefetchFunction().then((res) => setAuth(res));
+
+  const displayModal = (argBool) => {
+    setSingleUserModal(argBool);
+  };
+
   return (
     <>
       <nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -48,6 +139,7 @@ function Sidebar() {
               </div>
             </div>
           </div>
+
           <ul className="md:flex-col md:min-w-full flex flex-col list-none">
             <li className="items-center">
               <Link
@@ -59,69 +151,17 @@ function Sidebar() {
               </Link>
             </li>
           </ul>
-          <hr className="my-4 md:min-w-full" />
-          {/* Navigation */}
-          <ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4 overflow-x-hidden">
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Bier Kombinat
-              </Link>
-            </li>
+          <hr className="my-3 md:min-w-full" />
 
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Recipes
-              </Link>
-            </li>
+          {/* user authenticated?, show options or null */}
+          {auth ? (
+            <CalltoActionWidget setSingleUserModal={setSingleUserModal} />
+          ) : null}
 
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Create Recipes
-              </Link>
-            </li>
-
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Followers
-              </Link>
-            </li>
-
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Following
-              </Link>
-            </li>
-
-            <li className="inline-flex">
-              <Link
-                className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-                to="/"
-              >
-                <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-                Darkmode
-              </Link>
-            </li>
-          </ul>
+          {/* Modal for SingleUserSearch */}
+          {openSingleUserModal ? (
+            <SearchSingleUser displayModal={displayModal} />
+          ) : null}
         </div>
       </nav>
     </>

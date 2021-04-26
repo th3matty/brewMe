@@ -1,5 +1,4 @@
-import React, { useEffect, useContext, useState } from "react";
-import { UserContext } from "../context/user";
+import React, { useEffect, useState } from "react";
 import PrefetchFunction from "../hooks/usePrefetch";
 import Sidebar from "../components/sidebar/Sidebar";
 import Header from "../components/Header";
@@ -8,7 +7,6 @@ import { ReactComponent as LoadingIcon } from "../svg/Ripple-1s-200px.svg";
 
 export default function Dashboard() {
   const [auth, setAuth] = useState(false);
-  const { user } = useContext(UserContext);
   const checkPrefetch = PrefetchFunction().then((res) => setAuth(res));
 
   useEffect(() => {
@@ -24,7 +22,7 @@ export default function Dashboard() {
           <ShowAndSearchUser />
         ) : (
           <div>
-            <LoadingIcon /> <p className="text-center">Please login...</p>
+            <LoadingIcon /> <p className="text-center">...</p>
           </div>
         )}
         <hr className="my-4 md:min-w-full" />

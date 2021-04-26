@@ -11,17 +11,16 @@ function ShowAndSearchUser() {
   };
 
   return (
-    <div className="container flex mx-auto">
-      <div className="flex justify-start">
+    <div className="flex md:flex-wrap md:justify-between">
+      <div className="hidden md:visible lg:inline-block">
         <SearchIcon
-          className="h-12 w-12 ml-1 mr-3 mt-7 cursor-pointer"
+          className="h-12 w-12 ml-1 mr-3 mt-4 cursor-pointer"
           title="Search"
           onClick={() => setSingleUserModal(true)}
         />
       </div>
-      <div className="overflow-x-auto p-3">
-        {" "}
-        <RecentlyAddedUser count={20} />
+      <div>
+        <RecentlyAddedUser count={30} />
       </div>
       {openSingleUserModal ? (
         <SearchSingleUser displayModal={displayModal} />
