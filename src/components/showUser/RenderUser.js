@@ -87,7 +87,7 @@ function RenderUser({ value }) {
             />
           </div>
           <div className="flex">
-            <p className="m-2 underline text-sm text-left text-white text-md">
+            <p className="m-2 underline text-sm text-left text-white">
               {" "}
               {showMessage}{" "}
             </p>
