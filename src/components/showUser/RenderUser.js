@@ -1,9 +1,13 @@
-import React, { useState, createRef, useEffect } from "react";
+import React, { useState, createRef, useEffect, useContext } from "react";
 import { createPopper } from "@popperjs/core";
 import { ReactComponent as AddToFavIcon } from "../../svg/AddToFav.svg";
 import { ReactComponent as FollowIcon } from "../../svg/FollowUser.svg";
+import { FollowUser, AddUserToBuddies } from "../../services/graphQlMutation";
+import { UserContext } from "../../context/user";
 
 function RenderUser({ value }) {
+  const { token } = useContext(UserContext);
+
   const { _id, username, avatarURI } = value;
   const [popoverShow, setPopoverShow] = useState(false);
 
@@ -12,6 +16,8 @@ function RenderUser({ value }) {
 
   const avatar = "/default_user.png";
   const IMG_PATH = "/avatars/";
+
+  const [showMessage, setShowMessage] = useState("");
 
   const openPopover = () => {
     createPopper(btnRef.current, popoverRef.current, {
@@ -67,11 +73,24 @@ function RenderUser({ value }) {
             {username}
           </div>
           <div className=" flex space-x-5 text-white p-3 cursor-pointer">
-            <FollowIcon title="Follow Me" onClick={() => console.log(_id)} />
+            <FollowIcon
+              title="Follow Me"
+              onClick={() =>
+                FollowUser(_id, token)
+                  .then((res) => setShowMessage(res))
+                  .catch((err) => console.log(err))
+              }
+            />
             <AddToFavIcon
               title="Add To Favourite"
-              onClick={() => console.log(_id)}
+              onClick={() => AddUserToBuddies(_id, token)}
             />
+          </div>
+          <div className="flex">
+            <p className="m-2 underline text-sm text-left text-white text-md">
+              {" "}
+              {showMessage}{" "}
+            </p>
           </div>
         </div>
       </div>

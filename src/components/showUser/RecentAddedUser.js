@@ -16,7 +16,7 @@ function ShowRecentlyAddedUser({ count }) {
   return (
     <div className="flex flex-wrap lg:space-x-16">
       {displayUser !== undefined ? (
-        displayUser.map((item) => <RenderUser value={item} />)
+        displayUser.map((item) => <RenderUser value={item} key={item._id} />)
       ) : (
         <div>
           <LoadingIcon />
