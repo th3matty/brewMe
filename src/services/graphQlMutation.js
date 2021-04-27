@@ -128,27 +128,20 @@ export const FollowUser = async (followUserID, token) => {
     });
 
     const followUserResult = await followUser.json();
-    console.info("followUser:", followUser);
 
     if (!followUserResult) {
       throw new Error("something went wrong");
     }
+
     if (followUser.status === 200) {
-      console.log("followUserResult if 200:", followUserResult);
-      const message = await followUserResult.data.followUser;
-      return message;
+      const messageSuccess = await followUserResult.data.followUser;
+      return messageSuccess;
     } else {
-      console.log("followUserResult if 401 or 500", followUserResult);
-      // response
-      // followUserResult.data.errors[0].message
-      // message = User already exists in your list (string)
-      // status = 404
-      // return message = Failed, User already excist in your List!
-      const message = await followUserResult.errors[0].message
-      return message
+      const messageFail = await followUserResult.errors[0].message;
+      return messageFail;
     }
   } catch (err) {
-    console.log(err);
+    console.log("error in FollowUserMethod:", err);
   }
 };
 
@@ -166,10 +159,18 @@ export const AddUserToBuddies = async (UserID, token) => {
     });
 
     const addUserResult = await addUser.json();
-    console.info("addUserResult:", addUserResult);
 
     if (!addUserResult) {
       throw new Error("something went wrong");
+    }
+
+    if (addUser.status === 200) {
+      console.log("addUserResult", addUserResult);
+      const messageSuccess = "Success";
+      return messageSuccess;
+    } else {
+      const messageFail = await addUserResult.errors[0].message;
+      return messageFail;
     }
   } catch (err) {
     console.log(err);
