@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PrefetchFunction from "../../hooks/usePrefetch";
-import { Link } from "react-router-dom";
+import {
+  Link,
+  Switch,
+  Route,
+  withRouter,
+  useRouteMatch,
+} from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import SearchSingleUser from "../modal/SearchUserModal";
 import { ReactComponent as SearchIcon } from "../../svg/search.svg";
+import CreateRecipe from "../../pages/createRecipe";
 
-function CalltoActionWidget({ setSingleUserModal }) {
+function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
+  let { match } = props;
+  let { path, url } = useRouteMatch();
+
+  useEffect(() => {
+    console.log("props in Call TO Action - SIDEBAR:", props);
+  });
   return (
     <>
       <div className="mt-6 mb-5 lg:hidden">
@@ -40,7 +53,10 @@ function CalltoActionWidget({ setSingleUserModal }) {
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-            to="/"
+            to="/createrecipe"
+            //to={ROUTES.CREATERECIPE}
+            //to={`${match.url}/createrecipe`}
+            //to={`${url}/createrecipe`}
           >
             <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
             Create Recipes
@@ -61,7 +77,7 @@ function CalltoActionWidget({ setSingleUserModal }) {
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-            to="/"
+            to={"/"}
           >
             <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
             Following
@@ -88,11 +104,25 @@ function CalltoActionWidget({ setSingleUserModal }) {
           </Link>
         </li>
       </ul>
+
+      {/* <Switch>
+        <Route
+          // path={`${match.url}/createrecipe`}
+          path={`${path}/createRecipe`}
+          component={CreateRecipe}
+        >
+          <CreateRecipe />
+        </Route>
+      </Switch> */}
     </>
   );
 }
 
-function Sidebar() {
+const CalltoActionWidget = withRouter(CalltoActionWidgetContainer);
+
+function SidebarContainer(props) {
+  const { match } = props;
+
   const [collapseShow, setCollapseShow] = useState("hidden");
   const [openSingleUserModal, setSingleUserModal] = useState(false);
 
@@ -102,6 +132,10 @@ function Sidebar() {
   const displayModal = (argBool) => {
     setSingleUserModal(argBool);
   };
+
+  useEffect(() => {
+    console.log("props in Sidebar:", props);
+  });
 
   return (
     <>
@@ -154,9 +188,27 @@ function Sidebar() {
           <hr className="my-3 md:min-w-full" />
 
           {/* user authenticated?, show options or null */}
-          {auth ? (
+          {/* {auth ? (
             <CalltoActionWidget setSingleUserModal={setSingleUserModal} />
-          ) : null}
+          ) : null} */}
+
+          {/* test */}
+          <li className="inline-flex">
+            <Link
+              className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+              to={match.url + "createrecipe"}
+              //to={`${match.url}/createrecipe`}
+            >
+              <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+              Create Recipes
+            </Link>
+          </li>
+
+          <Switch>
+            <Route path={match.url + "createrecipe"} component={CreateRecipe} />
+          </Switch>
+
+          {/* test - end */}
 
           {/* Modal for SingleUserSearch */}
           {openSingleUserModal ? (
@@ -167,5 +219,7 @@ function Sidebar() {
     </>
   );
 }
+
+const Sidebar = withRouter(SidebarContainer);
 
 export default Sidebar;

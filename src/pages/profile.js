@@ -3,7 +3,7 @@ import PrefetchFunction from "../hooks/usePrefetch";
 import { UserContext } from "../context/user";
 import ChooseAvatar from "../components/modal/ChooseAvatar";
 
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
 import { ReactComponent as HomeIcon } from "../svg/home.svg";
@@ -15,7 +15,7 @@ import Background from "../dist/hopfenBG.jpg";
 
 import { SetUserDescription } from "../services/graphQlMutation";
 
-function Profile() {
+function ProfileContainer(props) {
   const [auth, setAuth] = useState(false);
   const [openAvatarModal, setOpenAvatarModal] = useState(false);
   const [openInputField, setOpenInputField] = useState(false);
@@ -42,8 +42,8 @@ function Profile() {
 
   useEffect(() => {
     document.title = "BrewMe - Profile";
-    console.log("user in profile", user);
-  }, [user]);
+    console.log("props aus Header:", props);
+  }, [props]);
   return (
     <>
       {auth === true ? (
@@ -181,4 +181,6 @@ function Profile() {
     </>
   );
 }
+
+const Profile = withRouter(ProfileContainer);
 export default Profile;

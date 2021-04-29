@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
 import Background from "../dist/wallpapertip_bier-wallpaper_496226.jpg";
@@ -8,7 +8,7 @@ import {
   createUserMethodGraphQl,
 } from "../services/graphQlQueries";
 
-export default function SignUp() {
+function SignupContainer() {
   const [userName, setUserName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -124,3 +124,5 @@ export default function SignUp() {
     </div>
   );
 }
+const SignUp = withRouter(SignupContainer);
+export default SignUp;

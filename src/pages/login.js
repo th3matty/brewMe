@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { UserContext } from "../context/user";
 import * as ROUTES from "../constants/routes";
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
@@ -10,8 +10,8 @@ import {
 } from "../services/graphQlQueries";
 import Background from "../dist/wallpapertip_bier-wallpaper_496226.jpg";
 
-export default function Login({ getUserObjAndToken }) {
-  const history = useHistory();
+function LoginContainer({ getUserObjAndToken, ...props }) {
+  const { history } = props;
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
@@ -79,6 +79,7 @@ export default function Login({ getUserObjAndToken }) {
 
   useEffect(() => {
     document.title = "BrewMe - Login";
+    console.log("props in Login:", props);
   }, []);
   return (
     <div
@@ -87,7 +88,7 @@ export default function Login({ getUserObjAndToken }) {
     >
       {helper && <p className="m-4 text-l text-green-500">{helper}</p>}
       {error && <p className="m-4 text-l text-red-500"> {error}</p>}
-      <BrewMeLogo className="w-32 h-32"/>
+      <BrewMeLogo className="w-32 h-32" />
       <div className="flex items-center bg-white p-4 border mb-4 mt-4 rounded-br-lg">
         <form onSubmit={handleLogin}>
           <input
@@ -126,3 +127,6 @@ export default function Login({ getUserObjAndToken }) {
     </div>
   );
 }
+
+const Login = withRouter(LoginContainer);
+export default Login;

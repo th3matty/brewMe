@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import { UserContext } from "../context/user";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
 import { ReactComponent as BrewMeLogo } from "../svg/logo.svg";
 import { ReactComponent as LogoutIcon } from "../svg/logout.svg";
 
-function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
+function CalltoActionWidgetContainer({ user, setUser, setToken, setRefreshToken }) {
   const IMG_PATH = "/avatars/";
   const avatar = "/default_user.png";
 
@@ -74,12 +74,15 @@ function CalltoActionWidget({ user, setUser, setToken, setRefreshToken }) {
   }
 }
 
-function Header() {
+const CalltoActionWidget = withRouter(CalltoActionWidgetContainer)
+
+function HeaderContainer(props) {
   const { user, setUser, setToken, setRefreshToken } = useContext(UserContext);
 
   useEffect(() => {
     document.title = "BrewMe - Dashboard";
-  }, []);
+    console.log("porps aus Header:", props);
+  }, [props]);
 
   return (
     <header className="relative bg-yellow-300 bg-opacity-75 border-b mb-8">
@@ -102,4 +105,5 @@ function Header() {
   );
 }
 
+const Header = withRouter(HeaderContainer)
 export default Header;
