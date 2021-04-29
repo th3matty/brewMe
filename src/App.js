@@ -12,6 +12,7 @@ const SignUp = lazy(() => import("./pages/signup"));
 const Profile = lazy(() => import("./pages/profile"));
 const NotFound = lazy(() => import("./pages/notfound"));
 
+
 function App(props) {
   
   useEffect(() => {
@@ -23,11 +24,11 @@ function App(props) {
     <UserContextProvider>
       <Suspense fallback={<p>Loading...</p>}>
         <Switch>
-          <Route path={ROUTES.DASHBOARD} component={Dashboard} exact />
           <Route path={ROUTES.LOGIN} render={() => <Login />} exact />
           <Route path={ROUTES.SIGN_UP} component={SignUp} exact />
           <Route path={ROUTES.PROFILE} component={Profile} exact />
-          <Route path={ROUTES.NOT_FOUND} component={NotFound} />
+          <Route path={ROUTES.NOT_FOUND} component={NotFound} exact/>
+          <Route path={ROUTES.DASHBOARD} component={Dashboard}/>
         </Switch>
       </Suspense>
     </UserContextProvider>

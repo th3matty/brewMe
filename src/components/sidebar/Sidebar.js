@@ -14,7 +14,6 @@ import CreateRecipe from "../../pages/createRecipe";
 
 function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
   let { match } = props;
-  let { path, url } = useRouteMatch();
 
   useEffect(() => {
     console.log("props in Call TO Action - SIDEBAR:", props);
@@ -51,17 +50,14 @@ function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
         </li>
 
         <li className="inline-flex">
-          <Link
-            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-            to="/createrecipe"
-            //to={ROUTES.CREATERECIPE}
-            //to={`${match.url}/createrecipe`}
-            //to={`${url}/createrecipe`}
-          >
-            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-            Create Recipes
-          </Link>
-        </li>
+            <Link
+              className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+              to={`${match.url}createrecipe`}
+            >
+              <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+              Create Recipes
+            </Link>
+          </li>
         {/* (show in dashboard?) */}
         <li className="inline-flex">
           <Link
@@ -104,16 +100,6 @@ function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
           </Link>
         </li>
       </ul>
-
-      {/* <Switch>
-        <Route
-          // path={`${match.url}/createrecipe`}
-          path={`${path}/createRecipe`}
-          component={CreateRecipe}
-        >
-          <CreateRecipe />
-        </Route>
-      </Switch> */}
     </>
   );
 }
@@ -121,7 +107,8 @@ function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
 const CalltoActionWidget = withRouter(CalltoActionWidgetContainer);
 
 function SidebarContainer(props) {
-  const { match } = props;
+  //const { match } = props;
+  let match = useRouteMatch();
 
   const [collapseShow, setCollapseShow] = useState("hidden");
   const [openSingleUserModal, setSingleUserModal] = useState(false);
@@ -188,27 +175,9 @@ function SidebarContainer(props) {
           <hr className="my-3 md:min-w-full" />
 
           {/* user authenticated?, show options or null */}
-          {/* {auth ? (
+          {auth ? (
             <CalltoActionWidget setSingleUserModal={setSingleUserModal} />
-          ) : null} */}
-
-          {/* test */}
-          <li className="inline-flex">
-            <Link
-              className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-              to={match.url + "createrecipe"}
-              //to={`${match.url}/createrecipe`}
-            >
-              <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-              Create Recipes
-            </Link>
-          </li>
-
-          <Switch>
-            <Route path={match.url + "createrecipe"} component={CreateRecipe} />
-          </Switch>
-
-          {/* test - end */}
+          ) : null}
 
           {/* Modal for SingleUserSearch */}
           {openSingleUserModal ? (
