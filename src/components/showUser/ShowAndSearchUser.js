@@ -22,6 +22,7 @@ function ShowAndSearchUser() {
       <div>
         <RecentlyAddedUser count={30} />
       </div>
+      <hr className="my-4 md:min-w-full" />
       {openSingleUserModal ? (
         <SearchSingleUser displayModal={displayModal} />
       ) : null}
