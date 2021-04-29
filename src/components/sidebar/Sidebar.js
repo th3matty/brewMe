@@ -1,23 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PrefetchFunction from "../../hooks/usePrefetch";
-import {
-  Link,
-  Switch,
-  Route,
-  withRouter,
-  useRouteMatch,
-} from "react-router-dom";
+import { Link, withRouter, useRouteMatch } from "react-router-dom";
 import * as ROUTES from "../../constants/routes";
 import SearchSingleUser from "../modal/SearchUserModal";
 import { ReactComponent as SearchIcon } from "../../svg/search.svg";
-import CreateRecipe from "../../pages/createRecipe";
 
-function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
-  let { match } = props;
+function CalltoActionWidgetContainer({ setSingleUserModal }) {
+  let match = useRouteMatch();
 
-  useEffect(() => {
-    console.log("props in Call TO Action - SIDEBAR:", props);
-  });
   return (
     <>
       <div className="mt-6 mb-5 lg:hidden">
@@ -50,14 +40,14 @@ function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
         </li>
 
         <li className="inline-flex">
-            <Link
-              className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-              to={`${match.url}createrecipe`}
-            >
-              <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
-              Create Recipes
-            </Link>
-          </li>
+          <Link
+            className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
+            to={`${match.url}createrecipe`}
+          >
+            <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
+            Create Recipes
+          </Link>
+        </li>
         {/* (show in dashboard?) */}
         <li className="inline-flex">
           <Link
@@ -106,10 +96,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal, ...props }) {
 
 const CalltoActionWidget = withRouter(CalltoActionWidgetContainer);
 
-function SidebarContainer(props) {
-  //const { match } = props;
-  let match = useRouteMatch();
-
+function SidebarContainer() {
   const [collapseShow, setCollapseShow] = useState("hidden");
   const [openSingleUserModal, setSingleUserModal] = useState(false);
 
@@ -119,10 +106,6 @@ function SidebarContainer(props) {
   const displayModal = (argBool) => {
     setSingleUserModal(argBool);
   };
-
-  useEffect(() => {
-    console.log("props in Sidebar:", props);
-  });
 
   return (
     <>

@@ -1,19 +1,11 @@
-import React, { lazy, useEffect } from "react";
+import React, { lazy } from "react";
 import { Switch, Route, withRouter, useRouteMatch } from "react-router-dom";
 import ShowAndSearchUser from "./showUser/ShowAndSearchUser";
-//import CreateRecipe from "../pages/createRecipe";
 
-// test -start
 const CreateRecipe = lazy(() => import("../pages/createRecipe"));
-// test-end
 
-function MainCointaner({ ...props }) {
-  //const { match } = props;
+function MainCointaner() {
   let match = useRouteMatch();
-
-  useEffect(() => {
-    console.log("props aus main:", props, match);
-  });
 
   return (
     <div>
