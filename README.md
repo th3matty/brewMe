@@ -48,11 +48,12 @@ Then you can start running "BrewMe" with npm start ( on port 4006 )
 
 Thats it.
 You can registrate your first user.
+
 Right now (22.04.21) you can confirm your emailadress 
-after creating a user on clicking the link showing in the terminal(backend)
+after creating a user on clicking the link showing in the terminal(have a look in the backend!)
 Follow the link and you should receive a message in the browser that it went succesfully.
 
-Afterwards you can login and hopefully enjoy the app :)
+Afterwards you can login(frontend) and hopefully enjoy the app :)
 
 ```
 
