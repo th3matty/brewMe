@@ -22,7 +22,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal }) {
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-            to="/"
+            to={`${match.url}bierkombinat`}
           >
             <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
             Bier Kombinat
@@ -32,7 +32,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal }) {
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
-            to="/"
+            to={`${match.url}recipes`}
           >
             <i className="fab fa-js-square mr-2 text-blueGray-400 text-base"></i>{" "}
             Recipes
@@ -49,6 +49,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal }) {
           </Link>
         </li>
         {/* (show in dashboard?) */}
+        {/*
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
@@ -59,7 +60,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal }) {
           </Link>
         </li>
 
-        {/* (show in dashboard?) */}
+        
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
@@ -69,7 +70,7 @@ function CalltoActionWidgetContainer({ setSingleUserModal }) {
             Following
           </Link>
         </li>
-
+          */}
         <li className="inline-flex">
           <Link
             className="text-blueGray-700 hover:text-blueGray-500  text-sm block mb-4 no-underline font-semibold"
