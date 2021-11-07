@@ -80,7 +80,7 @@ function LoginContainer({ getUserObjAndToken, ...props }) {
   useEffect(() => {
     document.title = "BrewMe - Login";
     console.log("props in Login:", props);
-  }, []);
+  }, [props]);
   return (
     <div
       className="flex flex-col mx-auto w-full h-full items-center h-screen bg-center bg-no-repeat bg-cover"
